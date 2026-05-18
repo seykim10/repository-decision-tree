@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repository Selection Decision Tree — NIH DMSP Guidance Working Group</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --nih-blue: #204080;
+    --nih-blue-light: #e8edf5;
+    --nih-blue-mid: #2c5499;
+    --teal: #0e7d7d;
+    --teal-light: #e4f4f4;
+    --amber: #7a5000;
+    --amber-light: #fef5e0;
+    --green: #1a6b3a;
+    --green-light: #e5f4ec;
+    --red: #8b1a1a;
+    --red-light: #f5e8e8;
+    --gray-50: #f8f8f6;
+    --gray-100: #eeecea;
+    --gray-200: #dbd9d4;
+    --gray-400: #9e9b94;
+    --gray-600: #6b6860;
+    --gray-900: #1c1a17;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.04);
+    --shadow-lg: 0 8px 28px rgba(0,0,0,0.11), 0 0 0 1px rgba(0,0,0,0.05);
+    --t: 0.18s ease;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--gray-50);
+    color: var(--gray-900);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--nih-blue);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .header-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-logo {
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1.4;
+    opacity: 0.85;
+    border-right: 1px solid rgba(255,255,255,0.25);
+    padding-right: 16px;
+    flex-shrink: 0;
+  }
+  .header-logo strong { display: block; font-weight: 600; font-size: 12px; letter-spacing: 0.04em; opacity: 1; }
+  .header-title { font-size: 15px; font-weight: 500; opacity: 0.96; }
+
+  /* ── Layout ── */
+  .container { max-width: 880px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  /* ── Intro ── */
+  .intro {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .intro-icon {
+    width: 46px; height: 46px;
+    background: var(--nih-blue-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .intro h1 {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--nih-blue);
+    margin-bottom: 6px;
+  }
+  .intro p { font-size: 13.5px; color: var(--gray-600); line-height: 1.65; }
+  .intro p + p { margin-top: 6px; }
+
+  /* ── Tags strip ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-200);
+    background: var(--gray-100);
+    color: var(--gray-600);
+  }
+
+  /* ── Progress ── */
+  .progress-wrap { margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+  .progress-track { flex: 1; height: 5px; background: var(--gray-200); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--nih-blue); border-radius: 3px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
+  .progress-label { font-size: 11px; color: var(--gray-400); white-space: nowrap; min-width: 40px; text-align: right; }
+
+  /* ── Breadcrumb ── */
+  .breadcrumb { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 18px; min-height: 24px; }
+  .crumb {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 11px;
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 20px;
+    padding: 3px 10px;
+    color: var(--gray-600);
+    animation: fadeIn 0.2s ease;
+  }
+  .crumb-q { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .crumb-a { font-weight: 600; color: var(--nih-blue); }
+
+  /* ── Step card ── */
+  .step-card {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 28px 30px 26px;
+    box-shadow: var(--shadow-md);
+    animation: slideUp 0.22s ease;
+  }
+
+  @keyframes slideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+  .step-eyebrow {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--nih-blue);
+    margin-bottom: 12px;
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    background: var(--nih-blue); color: white;
+    border-radius: 50%; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-q {
+    font-family: var(--font-serif);
+    font-size: 18px; font-weight: 400;
+    color: var(--gray-900); line-height: 1.45;
+    margin-bottom: 12px;
+  }
+  .step-hint {
+    font-size: 13px; color: var(--gray-600); line-height: 1.6;
+    background: var(--gray-50);
+    border-left: 3px solid var(--gray-200);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 22px;
+  }
+  .step-hint a { color: var(--nih-blue); }
+  .step-hint code {
+    font-size: 11px;
+    background: var(--gray-100);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+
+  /* ── Option buttons ── */
+  .options { display: flex; flex-direction: column; gap: 9px; }
+  .opt {
+    display: flex; align-items: center; gap: 14px;
+    padding: 13px 17px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    cursor: pointer; background: white;
+    text-align: left;
+    font-family: var(--font-sans); font-size: 14px;
+    color: var(--gray-900);
+    transition: border-color var(--t), background var(--t), transform var(--t);
+  }
+  .opt:hover { border-color: var(--nih-blue); background: var(--nih-blue-light); transform: translateX(3px); }
+  .opt-badge {
+    width: 28px; height: 28px; border-radius: 50%;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background var(--t), color var(--t);
+  }
+  .opt-yes .opt-badge { background: var(--green-light); color: var(--green); }
+  .opt-no .opt-badge  { background: var(--red-light);   color: var(--red); }
+  .opt-na .opt-badge  { background: var(--gray-100);    color: var(--gray-600); }
+  .opt-yes:hover .opt-badge { background: var(--green); color: white; }
+  .opt-no:hover  .opt-badge { background: var(--red);   color: white; }
+  .opt-na:hover  .opt-badge { background: var(--gray-600); color: white; }
+  .opt-text { flex: 1; }
+  .opt-label { font-weight: 500; display: block; }
+  .opt-sub { font-size: 12px; color: var(--gray-600); margin-top: 2px; display: block; }
+
+  /* ── Back button ── */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 13px; color: var(--gray-600);
+    background: none; border: none; cursor: pointer;
+    font-family: var(--font-sans); padding: 4px 0;
+    margin-bottom: 14px; transition: color var(--t);
+  }
+  .back-btn:hover { color: var(--nih-blue); }
+
+  /* ── Result ── */
+  .result-card {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.28s ease;
+  }
+  .result-header {
+    background: var(--nih-blue);
+    color: white;
+    padding: 20px 28px 22px;
+  }
+  .result-eyebrow {
+    font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; opacity: 0.7;
+    margin-bottom: 5px; font-weight: 600;
+  }
+  .result-title {
+    font-family: var(--font-serif);
+    font-size: 19px; font-weight: 400; line-height: 1.35;
+  }
+  .result-body { padding: 22px 28px; }
+
+  /* Special result blocks */
+  .result-special {
+    padding: 14px 18px;
+    border-left: 4px solid;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 13.5px; line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .result-special strong { display: block; font-weight: 600; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .result-special.type-funder { border-color: var(--amber); background: var(--amber-light); color: #4a3000; }
+  .result-special.type-domain { border-color: var(--teal);  background: var(--teal-light);  color: #0a5050; }
+  .result-special.type-warn   { border-color: var(--red);   background: var(--red-light);   color: #5a1010; }
+
+  .domain-examples { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .domain-chip {
+    font-size: 11px; padding: 3px 10px;
+    background: white; border: 1px solid var(--gray-200);
+    border-radius: 20px; color: var(--gray-600);
+  }
+
+  /* Repo items */
+  .repo-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  .repo-item {
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 13px 17px;
+    display: flex; align-items: flex-start; gap: 12px;
+    transition: border-color var(--t), box-shadow var(--t);
+  }
+  .repo-item:hover { border-color: var(--nih-blue); box-shadow: var(--shadow-sm); }
+  .repo-item.primary { border-color: var(--green); background: var(--green-light); }
+  .repo-item.primary:hover { box-shadow: 0 2px 10px rgba(26,107,58,.13); }
+  .repo-pill {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--green); color: white;
+    padding: 2px 8px; border-radius: 20px;
+    white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  }
+  .repo-name { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+  .repo-desc { font-size: 12px; color: var(--gray-600); line-height: 1.5; margin-bottom: 5px; }
+  .repo-url { font-size: 12px; color: var(--nih-blue); text-decoration: none; }
+  .repo-url:hover { text-decoration: underline; }
+
+  .also-section { margin-top: 16px; }
+  .also-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--gray-400); margin-bottom: 8px;
+  }
+
+  .result-note {
+    font-size: 13px; color: var(--gray-600);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-left: 3px solid var(--nih-blue);
+    padding: 11px 15px;
+    border-radius: 0 8px 8px 0;
+    line-height: 1.65; margin-top: 16px;
+  }
+  .result-note strong { color: var(--gray-900); }
+  .result-note a { color: var(--nih-blue); }
+
+  .action-row {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    padding: 16px 28px 20px;
+    border-top: 1px solid var(--gray-100);
+    background: var(--gray-50);
+  }
+  .btn {
+    padding: 9px 18px; border-radius: var(--radius);
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    font-family: var(--font-sans);
+    transition: all var(--t);
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1.5px solid var(--gray-200);
+    background: white; color: var(--gray-900);
+  }
+  .btn:hover { border-color: var(--gray-400); background: var(--gray-100); }
+  .btn-primary { background: var(--nih-blue); color: white; border-color: var(--nih-blue); }
+  .btn-primary:hover { background: var(--nih-blue-mid); border-color: var(--nih-blue-mid); }
+
+  .citation {
+    font-size: 11px; color: var(--gray-400);
+    padding: 10px 28px 16px; line-height: 1.6;
+  }
+  .citation a { color: var(--nih-blue); text-decoration: none; }
+  .citation a:hover { text-decoration: underline; }
+
+  /* ── Resources sidebar ── */
+  .resources-box {
+    background: var(--nih-blue-light);
+    border: 1px solid #c0cce0;
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
+    margin-top: 24px;
+  }
+  .resources-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--nih-blue); margin-bottom: 12px;
+  }
+  .resource-links { display: flex; flex-direction: column; gap: 7px; }
+  .resource-link {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px; color: var(--nih-blue);
+    text-decoration: none; padding: 9px 13px;
+    background: white; border-radius: 8px;
+    border: 1px solid #c0cce0;
+    transition: border-color var(--t), box-shadow var(--t);
+    line-height: 1.4;
+  }
+  .resource-link:hover { border-color: var(--nih-blue); box-shadow: var(--shadow-sm); }
+  .resource-link span { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+  .rl-title { font-weight: 500; display: block; }
+  .rl-sub { font-size: 11px; color: var(--gray-600); margin-top: 1px; display: block; }
+
+  /* ── Footer ── */
+  .site-footer {
+    margin-top: 40px;
+    border-top: 1px solid var(--gray-200);
+    padding: 20px 24px;
+    max-width: 880px;
+    margin-left: auto; margin-right: auto;
+    font-size: 12px; color: var(--gray-400); line-height: 1.6;
+    display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;
+    align-items: flex-start;
+  }
+  .site-footer a { color: var(--gray-600); text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; color: var(--nih-blue); }
+
+  @media (max-width: 600px) {
+    .step-card, .result-body, .action-row { padding-left: 16px; padding-right: 16px; }
+    .step-q { font-size: 16px; }
+    .intro { flex-direction: column; gap: 12px; }
+    .header-logo { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-logo">
+      <strong>NIH DMSP Guidance Working Group</strong>
+      Repository Selection Decision Tree
+    </div>
+    <div class="header-title">Repository Selection Decision Tree</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="intro">
+    <div class="intro-icon">🗄️</div>
+    <div>
+      <h1>How to select a data repository</h1>
+      <p>Answer a series of questions to identify the most appropriate repository for sharing your research data. This tool follows the NIH Data Management and Sharing Plan (DMSP) guidance framework — checking funder mandates and domain-specific repositories first, then institutional options, before recommending from the GREI generalist repositories.</p>
+      <p>Developed as part of the <strong>NIH DMSP Guidance Working Group</strong> project. Based on the <a href="https://doi.org/10.5281/zenodo.11105430" style="color:var(--nih-blue)">GREI Repository Selection Flowchart</a> (Barbosa et al., 2024) and <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific" style="color:var(--nih-blue)" target="_blank">NIH repository selection guidance</a>.</p>
+      <div class="tags">
+        <span class="tag">NIH DMSP</span>
+        <span class="tag">FAIR Data</span>
+        <span class="tag">GREI</span>
+        <span class="tag">Data Sharing</span>
+        <span class="tag">Open Science</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div class="progress-label" id="prog-label">Step 1</div>
+  </div>
+  <div class="breadcrumb" id="breadcrumb"></div>
+  <div id="app"></div>
+
+  <!-- Resources panel -->
+  <div class="resources-box">
+    <div class="resources-title">Additional tools &amp; resources for finding a repository</div>
+    <div class="resource-links">
+      <a class="resource-link" href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank">
+        <span>🏛️</span>
+        <div>
+          <span class="rl-title">NIH-Supported Scientific Data Repositories</span>
+          <span class="rl-sub">Filter by NIH Institute/Center (ICO) or keyword</span>
+        </div>
+      </a>
+      <a class="resource-link" href="https://www.nlm.nih.gov/NIHbmic/nih_data_sharing_repositories.html" target="_blank">
+        <span>🔍</span>
+        <div>
+          <span class="rl-title">BMIC Lists of Data Sharing Repositories</span>
+          <span class="rl-sub">Domain-specific and generalist repositories with filtering options</span>
+        </div>
+      </a>
+      <a class="resource-link" href="https://nnlm.gov/data/repository-selection-tool" target="_blank">
+        <span>🧭</span>
+        <div>
+          <span class="rl-title">NNLM Data Repository Finder</span>
+          <span class="rl-sub">6 filtering options; generates a side-by-side comparison table</span>
+        </div>
+      </a>
+      <a class="resource-link" href="https://repository-finder.nichd.nih.gov" target="_blank">
+        <span>🩺</span>
+        <div>
+          <span class="rl-title">NICHD Data Repository Finder</span>
+          <span class="rl-sub">5 major + 6 additional filters; compare up to 3 repositories</span>
+        </div>
+      </a>
+      <a class="resource-link" href="https://www.re3data.org/" target="_blank">
+        <span>🌐</span>
+        <div>
+          <span class="rl-title">re3data.org — Registry of Research Data Repositories</span>
+          <span class="rl-sub">Largest global database of repositories; browse by subject, content type, or country</span>
+        </div>
+      </a>
+      <a class="resource-link" href="https://doi.org/10.5281/zenodo.11105430" target="_blank">
+        <span>📋</span>
+        <div>
+          <span class="rl-title">GREI Repository Selection Flowchart (Barbosa et al., 2024)</span>
+          <span class="rl-sub">Original source flowchart for generalist repository selection — Zenodo</span>
+        </div>
+      </a>
+      <a class="resource-link" href="https://datascience.nih.gov/data-ecosystem/generalist-repository-ecosystem-initiative" target="_blank">
+        <span>📊</span>
+        <div>
+          <span class="rl-title">GREI Repositories Comparison Chart</span>
+          <span class="rl-sub">Detailed feature comparison for Dataverse, Dryad, Figshare, Mendeley Data, OSF, Vivli, Zenodo</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div>
+    Developed as part of the <strong>NIH DMSP Guidance Working Group</strong> project. Shared via <a href="https://osf.io/uadxr/" target="_blank">OSF (osf.io/uadxr)</a>.
+  </div>
+  <div>
+    Decision logic based on: Barbosa et al. (2024). <a href="https://doi.org/10.5281/zenodo.11105430" target="_blank">GREI Repository Selection Flowchart</a>. Zenodo. CC BY 4.0.
+  </div>
+</footer>
+
+<script>
+// ─── Repository data ──────────────────────────────────────────────────────
+
+const REPOS = {
+  dataverse: {
+    name: "Harvard Dataverse",
+    url: "https://dataverse.harvard.edu",
+    desc: "Free, open to all disciplines. Supports versioning, embargoes, rich metadata schemas, and flexible storage. Strong for structured datasets and institutional use cases."
+  },
+  dryad: {
+    name: "Dryad",
+    url: "https://datadryad.org",
+    desc: "Community-led, curated platform for research data. Publishes exclusively under CC0. Strong journal integrations; submission fee often waived for partner journals (~$120–$135 otherwise)."
+  },
+  figshare: {
+    name: "Figshare",
+    url: "https://figshare.com",
+    desc: "Free for deposits up to 20 GB. Accepts all file types and disciplines — datasets, code, figures, posters, and multimedia. Supports user-managed restricted access."
+  },
+  mendeley: {
+    name: "Mendeley Data",
+    url: "https://data.mendeley.com",
+    desc: "Free repository (10 GB per dataset). Integrates with Elsevier publishing workflows. Supports anonymous sharing links for peer review. Good for smaller datasets from any discipline."
+  },
+  osf: {
+    name: "OSF (Open Science Framework)",
+    url: "https://osf.io",
+    desc: "Free project management tool + repository (Center for Open Science). Supports wikis, pre-registration, versioning, and integrations with GitHub, Google Drive, Dropbox. 50 GB public project limit."
+  },
+  vivli: {
+    name: "Vivli",
+    url: "https://vivli.org",
+    desc: "Specialized for clinical and biomedical research data. Includes an Independent Review Panel (IRP) for controlled access decisions. Cost applies (~$2,500 for non-member institutions)."
+  },
+  zenodo: {
+    name: "Zenodo",
+    url: "https://zenodo.org",
+    desc: "CERN-hosted, free and open. All disciplines, 50 GB per record, supports software/code/preprints, deep GitHub integration, restricted access, and broad license support. Strong long-term sustainability."
+  },
+  institutional: {
+    name: "Your institutional repository",
+    url: "https://www.re3data.org/",
+    desc: "Your institution's own data repository — often the preferred first option. Locally supported, may integrate with institutional systems, and frequently preferred or required by funders."
+  }
+};
+
+// ─── Decision tree nodes ──────────────────────────────────────────────────
+
+const TREE = {
+
+  // ── STEP 1: FOA/NOFO funder mandate ──────────────────────────────────────
+  s1_funder: {
+    stepNum: 1,
+    label: "Funding requirements",
+    q: "Does your Funding Opportunity Announcement (FOA) or Notice of Funding Opportunity (NOFO) specify a required repository?",
+    hint: `Check the Data Management and Sharing section of your FOA or NOFO. NIH Institutes and Centers sometimes mandate specific repositories (e.g., NIA's ELITE portal, NIDDK Central Repository, NCI Cancer Research Data Commons). When specified, that repository must be used.`,
+    yes: { result: "funder_result" },
+    no: "s2_organism"
+  },
+
+  // ── STEP 2: Model organism ────────────────────────────────────────────────
+  s2_organism: {
+    stepNum: 2,
+    label: "Organism-specific repository",
+    q: "Is there a model organism-specific repository appropriate for your data?",
+    hint: "Examples: MGI (mouse), ZFIN (zebrafish), FlyBase (Drosophila), WormBase (C. elegans), RGD (rat). Check the BMIC lists of data sharing repositories for a full listing (link in resources below). These repositories provide community-standard metadata and are frequently preferred or expected by relevant NIH ICs.",
+    yes: { result: "organism_result" },
+    no: "s3_disease"
+  },
+
+  // ── STEP 3: Disease / organ specific ─────────────────────────────────────
+  s3_disease: {
+    stepNum: 3,
+    label: "Disease or organ-specific repository",
+    q: "Is there a disease-specific or organ-specific repository appropriate for your data?",
+    hint: `Examples: The Cancer Imaging Archive (TCIA) for cancer imaging data; AD Knowledge Portal for Alzheimer's Disease data; Federal Interagency Traumatic Brain Injury Research (FITBIR) Informatics System for TBI data. Use the <a href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank">NIH repository list</a> to search for others.`,
+    yes: { result: "disease_result" },
+    no: "s4_datatype"
+  },
+
+  // ── STEP 4: Data type / method specific ──────────────────────────────────
+  s4_datatype: {
+    stepNum: 4,
+    label: "Data type-specific repository",
+    q: "Is there a data type-specific or method-specific repository appropriate for your data?",
+    hint: `<strong>Imaging:</strong> OpenNeuro, Image &amp; Data Archive (IDA), IDR (Image Data Resource), EMPIAR (Electron Microscopy Public Image Archive) &nbsp;|&nbsp; <strong>Biochemical/biophysical:</strong> Protein Data Bank, EMDB (Electron Microscopy Data Bank), Flow Repository &nbsp;|&nbsp; <strong>Genomics:</strong> dbGaP, GEO (Gene Expression Omnibus) &nbsp;|&nbsp; <strong>Proteomics:</strong> PeptideAtlas, PRIDE &nbsp;|&nbsp; <strong>Metabolomics:</strong> Metabolomics Workbench &nbsp;|&nbsp; <strong>Qualitative data:</strong> QDR (Qualitative Data Repository), ICPSR, DataBrary`,
+    yes: { result: "datatype_result" },
+    no: "s5_ic"
+  },
+
+  // ── STEP 5: IC-specific central repository ────────────────────────────────
+  s5_ic: {
+    stepNum: 5,
+    label: "IC-specific repository",
+    q: "Is there an NIH Institute/Center (IC)-specific central repository that can be used for your data?",
+    hint: `Use the ICO filter on the <a href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank">NIH repository list</a> to find IC-specific options. Examples: NIAID ImmPort, NIDDK Central Repository, NICHD DASH, NCI CRDC, NIMH Data Archive.`,
+    yes: { result: "ic_result" },
+    no: "s6_inst"
+  },
+
+  // ── STEP 6: Institutional repository ─────────────────────────────────────
+  s6_inst: {
+    stepNum: 6,
+    label: "Institutional repository",
+    q: "Does your institution have a designated data repository, institutional repository, or a membership with a generalist repository?",
+    hint: `Many universities have institutional data repositories (often built on Dataverse, DSpace, or similar platforms). Some institutions have institutional memberships with generalist repositories (e.g., Figshare for Institutions, Zenodo community). Check with your library or research data services office.`,
+    yes: { result: "institutional_result" },
+    no: "s7_human"
+  },
+
+  // ── STEP 7: Human subjects / sensitive data ───────────────────────────────
+  s7_human: {
+    stepNum: 7,
+    label: "Human subjects data",
+    q: "Does your data involve human subjects, clinical trial data, PHI (protected health information), or PII (personally identifiable information)?",
+    hint: `All GREI generalist repositories require de-identification before deposit. Best practice is to employ managed access even after anonymization when re-identification risk remains. If data cannot be appropriately de-identified, a controlled-access repository is required.`,
+    yes: "s7b_managed",
+    no: "s8_size"
+  },
+
+  s7b_managed: {
+    stepNum: 7,
+    label: "Managed access",
+    q: "Does your data require managed / controlled access?",
+    hint: `Controlled access means data will not be fully public — only approved researchers can access it under a data use agreement (DUA). If the data can be de-identified and shared openly, you can proceed to an open generalist repository after anonymization.`,
+    yes: "s7c_type",
+    no: "s7d_anon"
+  },
+
+  s7c_type: {
+    stepNum: 7,
+    label: "Clinical or biomedical data",
+    q: "Is this data from a clinical trial or a biomedical human subjects study?",
+    hint: `Vivli is purpose-built for clinical research data and includes an Independent Review Panel (IRP) to manage access requests. For other human subjects data requiring controlled access (e.g., survey data, qualitative interviews), Dataverse and Zenodo both support depositor-managed restricted access.`,
+    yes: { result: "vivli_result" },
+    no: { result: "controlled_gen_result" }
+  },
+
+  s7d_anon: {
+    stepNum: 7,
+    label: "De-identification",
+    q: "Can the data be appropriately de-identified / anonymized before deposit?",
+    hint: `If re-identification risk is low after de-identification, open deposit in a generalist repository is appropriate. If the data cannot be effectively de-identified, consult your IRB and data governance office about appropriate controlled-access options.`,
+    yes: "s8_size",
+    no: { result: "consult_result" }
+  },
+
+  // ── STEP 8: Storage size ──────────────────────────────────────────────────
+  s8_size: {
+    stepNum: 8,
+    label: "Dataset size",
+    q: "What is the approximate total size of your complete data package?",
+    hint: `Storage limits vary: Mendeley Data (10 GB/dataset), OSF (50 GB/public project), Figshare (20 GB free), Zenodo (50 GB/record — contact for higher), Dataverse (flexible, varies by installation), Dryad (flexible with curation), Vivli (large datasets supported).`,
+    opts: [
+      { val: "small",  label: "Under 50 GB",   sub: "Compatible with most generalist repositories" },
+      { val: "medium", label: "50 GB – 300 GB", sub: "Fewer repositories; some size restrictions apply" },
+      { val: "large",  label: "Over 300 GB",    sub: "Contact repository directly; options are limited" }
+    ],
+    multiOpt: true
+  },
+
+  // ── STEP 9: Software / code ───────────────────────────────────────────────
+  s9_software: {
+    stepNum: 9,
+    label: "Software or code",
+    q: "Is your primary output software, code, or a GitHub repository?",
+    hint: `Zenodo has built-in GitHub integration and automatically archives each release as a citable, versioned deposit with a DOI. Figshare and OSF also support software deposits. All three mint persistent identifiers for each version.`,
+    yes: { result: "software_result" },
+    no: "s10_curation"
+  },
+
+  // ── STEP 10: Curation ─────────────────────────────────────────────────────
+  s10_curation: {
+    stepNum: 10,
+    label: "Data curation",
+    q: "Do you need professional data curation — staff review of your data, metadata, and file organization?",
+    hint: `Dryad provides free, thorough curation for all submissions (note: adds processing time and requires CC0 licensing). Figshare, Mendeley Data, and Zenodo offer paid curation services. All other repositories are primarily self-service.`,
+    yes: { result: "dryad_result" },
+    no: "s11_license"
+  },
+
+  // ── STEP 11: License ──────────────────────────────────────────────────────
+  s11_license: {
+    stepNum: 11,
+    label: "Licensing requirements",
+    q: "Do you require a specific license other than CC0 (public domain dedication)?",
+    hint: `Dryad requires CC0 for all deposits. Dataverse, Zenodo, Figshare, Mendeley Data, and OSF support a wide range of licenses: CC BY 4.0, CC BY-NC, MIT, Apache 2.0, GPL, and many others. Use the <a href="https://chooser-beta.creativecommons.org/" target="_blank">Creative Commons license chooser</a> if you need guidance.`,
+    yes: { result: "flexible_license_result" },
+    no: "s12_collab"
+  },
+
+  // ── STEP 12: Project management ───────────────────────────────────────────
+  s12_collab: {
+    stepNum: 12,
+    label: "Project management",
+    q: "Do you need a full project management platform in addition to a data repository?",
+    hint: `OSF (Open Science Framework) supports wikis, pre-registration, contributor management, versioning, and integrations with GitHub, Google Drive, Dropbox, and more. It functions as a complete research workflow platform, not only a data archive.`,
+    yes: { result: "osf_result" },
+    no: { result: "general_result" }
+  }
+};
+
+// ─── Results ──────────────────────────────────────────────────────────────
+
+const RESULTS = {
+
+  funder_result: {
+    title: "Use your FOA/NOFO-specified repository",
+    special: { type: "funder", heading: "Funder mandate applies", body: "Your funding announcement specifies a required repository — this takes precedence over all other considerations. Look for the repository name in the Data Management and Sharing section of your FOA or NOFO (e.g., some NIA announcements require use of the ELITE portal; NIDDK often requires the NIDDK Central Repository)." },
+    note: "After depositing in the funder-required repository, you may optionally cross-deposit in an institutional or generalist repository for additional discoverability — confirm this is permitted by the funder.",
+    primary: [], also: []
+  },
+
+  organism_result: {
+    title: "Use an organism-specific repository",
+    special: { type: "domain", heading: "Organism-specific repositories", body: "These repositories use community-standard metadata schemas, are well-indexed within disciplinary networks, and are frequently preferred or required by relevant NIH ICs for non-human organism data." },
+    examples: ["🐭 MGI (mouse)", "🐟 ZFIN (zebrafish)", "🪰 FlyBase (Drosophila)", "🪱 WormBase (C. elegans)", "🐀 RGD (rat)"],
+    note: "If your dataset spans multiple types — some organism-specific and some generic — consider splitting the deposit. Consult your institutional data librarian for guidance.",
+    primary: [], also: [REPOS.dataverse, REPOS.dryad, REPOS.figshare, REPOS.mendeley, REPOS.osf, REPOS.zenodo]
+  },
+
+  disease_result: {
+    title: "Use a disease- or organ-specific repository",
+    special: { type: "domain", heading: "Disease/organ-specific repositories", body: "These repositories offer domain-appropriate metadata standards, targeted community visibility, and are frequently preferred by relevant NIH ICs." },
+    examples: ["🔬 TCIA (cancer imaging)", "🧠 AD Knowledge Portal (Alzheimer's)", "💡 FITBIR (traumatic brain injury)"],
+    note: "Search re3data.org or use the NIH IC filter on the BMIC repository list to confirm whether a disease-specific repository exists for your data type.",
+    primary: [], also: [REPOS.dataverse, REPOS.dryad, REPOS.figshare, REPOS.mendeley, REPOS.osf, REPOS.zenodo]
+  },
+
+  datatype_result: {
+    title: "Use a data type-specific or method-specific repository",
+    special: { type: "domain", heading: "Data type-specific repositories", body: "Discipline-specific repositories use community-standard metadata, increase discoverability within your field, and are preferred by many NIH ICs." },
+    examples: ["🖼️ OpenNeuro (imaging)", "🖼️ Image & Data Archive (IDA)", "🖼️ IDR (Image Data Resource)", "🔬 EMPIAR (electron microscopy)", "⚗️ Protein Data Bank", "⚗️ EMDB (EM Data Bank)", "⚗️ Flow Repository", "🧬 dbGaP (genomics)", "🧬 GEO (genomics)", "🔬 PeptideAtlas (proteomics)", "🔬 PRIDE (proteomics)", "📊 Metabolomics Workbench", "📝 QDR (qualitative)", "📝 ICPSR (qualitative)", "📝 DataBrary (qualitative)"],
+    note: "If only part of your data has a suitable domain repository, use this tool for the remainder of your dataset.",
+    primary: [], also: [REPOS.dataverse, REPOS.dryad, REPOS.figshare, REPOS.mendeley, REPOS.osf, REPOS.zenodo]
+  },
+
+  ic_result: {
+    title: "Use an NIH IC-specific central repository",
+    special: { type: "domain", heading: "IA-specific repositories", body: "NIH Institute and Center-specific repositories are often mandated or strongly preferred for data generated from IC-funded research. Using these repositories improves data findability within the relevant research community." },
+    examples: ["🦠 NIAID ImmPort", "🩺 NIDDK Central Repository", "👶 NICHD DASH", "🎗️ NCI CRDC", "🧠 NIMH Data Archive", "👴 NIA NACC"],
+    note: "Filter the NIH Scientific Data Repositories list by ICO to identify any IC-specific requirements for your funding source.",
+    primary: [], also: [REPOS.dataverse, REPOS.dryad, REPOS.figshare, REPOS.mendeley, REPOS.osf, REPOS.zenodo]
+  },
+
+  institutional_result: {
+    title: "Use your institutional repository",
+    special: { type: "domain", heading: "Institutional repository recommended", body: "Your institution's repository is often the best first option — it is locally supported, integrates with institutional research systems, and is frequently preferred by funders. Contact your library or research data services office for guidance on deposit." },
+    note: "If your dataset has requirements your institutional repository cannot accommodate (e.g., controlled access, very large size, specialized licensing), continue through this tool to identify a suitable generalist repository. Many researchers deposit in both.",
+    primary: [REPOS.institutional], also: [REPOS.zenodo, REPOS.dataverse]
+  },
+
+  vivli_result: {
+    title: "Recommended: Vivli",
+    note: "Vivli is purpose-built for clinical and biomedical research data with controlled access. An Independent Review Panel (IRP) manages data access requests under a data use agreement. Note that a cost applies (~$2,500 base for non-member institutions). Dataverse and Zenodo are alternatives that also support depositor-managed restricted access.",
+    primary: [REPOS.vivli], also: [REPOS.dataverse, REPOS.zenodo]
+  },
+
+  controlled_gen_result: {
+    title: "Recommended: Zenodo or Dataverse (restricted access)",
+    note: "Both support depositor-managed restricted or controlled access for non-clinical human subjects data. Zenodo allows the depositor to share files with specific approved users. Dataverse supports data use agreements, embargo periods, and tiered access. Figshare and OSF also offer user-managed restricted access.",
+    primary: [REPOS.zenodo, REPOS.dataverse], also: [REPOS.figshare, REPOS.osf]
+  },
+
+  consult_result: {
+    title: "Consult your IRB and data governance office",
+    special: { type: "warn", heading: "Compliance guidance needed", body: "If your data cannot be adequately de-identified and requires controlled access with complex governance considerations (e.g., HIPAA-covered data, vulnerable populations, genomic data), please consult your Institutional Review Board (IRB), compliance office, and institutional data librarian before selecting a repository." },
+    note: "Your institution's research data services or sponsored research office can help identify appropriate controlled-access repositories and required data use agreement frameworks.",
+    primary: [], also: [REPOS.vivli, REPOS.dataverse, REPOS.zenodo]
+  },
+
+  size_medium_result: {
+    title: "Recommended: Dataverse, Dryad, or Vivli (50–300 GB)",
+    note: "For datasets in the 50–300 GB range, Dataverse (no byte-size limit per dataset), Dryad (flexible with curation), and Vivli (for clinical data) are the strongest options. Zenodo supports up to 50 GB per record but can accommodate larger datasets by splitting records or contacting support. Figshare+ supports larger datasets for a fee.",
+    primary: [REPOS.dataverse, REPOS.dryad], also: [REPOS.zenodo, REPOS.vivli]
+  },
+
+  very_large_result: {
+    title: "Contact repository directly — dataset exceeds 300 GB",
+    special: { type: "warn", heading: "Large dataset — advance coordination required", body: "For datasets over 300 GB, standard self-service deposit limits apply at most repositories. Contact the repository directly before beginning your deposit. Consider whether a domain-specific or NIH-funded repository (which often have no size limits) may be appropriate." },
+    note: "Dataverse installations can often accommodate large datasets through institutional arrangements. Vivli supports large clinical datasets. Zenodo can accommodate larger volumes with advance communication. Your institutional data librarian may be able to facilitate direct contact.",
+    primary: [REPOS.dataverse], also: [REPOS.zenodo, REPOS.vivli]
+  },
+
+  software_result: {
+    title: "Recommended: Zenodo or Figshare",
+    note: "Zenodo's GitHub integration automatically archives each software release as a citable, versioned record with a DOI — ideal for code repositories. Figshare also supports software deposits well. Both mint persistent identifiers for each version. OSF is a good option if you also need project management capabilities alongside the code archive.",
+    primary: [REPOS.zenodo, REPOS.figshare], also: [REPOS.osf]
+  },
+
+  dryad_result: {
+    title: "Recommended: Dryad",
+    note: "Dryad provides free, thorough professional curation for all submissions. All data is published under CC0 (public domain dedication). A submission fee of ~$120–$135 applies, though this is frequently waived for journal-partner submissions. Figshare and Mendeley Data offer paid curation services as alternatives if CC0 is not suitable.",
+    primary: [REPOS.dryad], also: [REPOS.dataverse, REPOS.zenodo]
+  },
+
+  flexible_license_result: {
+    title: "Recommended: Zenodo, Dataverse, Figshare, or OSF",
+    note: "All four support a broad range of Creative Commons licenses (CC BY 4.0, CC BY-NC, CC BY-SA, etc.) and software licenses (MIT, Apache 2.0, GPL v2/v3, etc.). Zenodo has the widest license support including specialized hardware licenses (CERN OHL, TAPR OHL). Dryad only supports CC0 and is not suitable if a different license is needed.",
+    primary: [REPOS.zenodo, REPOS.dataverse, REPOS.figshare, REPOS.osf], also: [REPOS.mendeley]
+  },
+
+  osf_result: {
+    title: "Recommended: OSF (Open Science Framework)",
+    note: "OSF functions as both a project management tool and a data repository. It supports wikis, pre-registration, contributor management, versioning, and integrations with GitHub, Google Drive, Dropbox, and more. Public projects are limited to 50 GB. If you need only archival storage without project management, Zenodo or Dataverse provide better long-term preservation guarantees.",
+    primary: [REPOS.osf], also: [REPOS.dataverse, REPOS.zenodo]
+  },
+
+  general_result: {
+    title: "Recommended: Zenodo, Figshare, or Mendeley Data",
+    note: "These are strong, free general-purpose options for smaller datasets from any discipline. Zenodo (CERN/OpenAIRE) has the most robust long-term sustainability model and broadest license support. Figshare accepts the widest range of file types. Mendeley Data integrates well with Elsevier publishing workflows and supports anonymous peer review links.",
+    primary: [REPOS.zenodo, REPOS.figshare, REPOS.mendeley], also: [REPOS.dataverse, REPOS.osf]
+  }
+};
+
+// ─── State ─────────────────────────────────────────────────────────────────
+
+let history = [];
+let current = "s1_funder";
+const TOTAL_STEPS = 12;
+
+// ─── Render ────────────────────────────────────────────────────────────────
+
+function getProgress() {
+  return Math.min(Math.round((history.length / TOTAL_STEPS) * 100), 95);
+}
+
+function render() {
+  document.getElementById("prog").style.width = getProgress() + "%";
+
+  // current is either a string (node id) or an object { result: "key" }
+  if (typeof current === "object" && current.result) {
+    document.getElementById("prog-label").textContent = "Done";
+    renderBreadcrumb();
+    renderResult(current.result);
+  } else {
+    const node = TREE[current];
+    if (!node) return; // safety guard
+    document.getElementById("prog-label").textContent = "Step " + node.stepNum;
+    renderBreadcrumb();
+    renderQuestion(current, node);
+  }
+}
+
+function renderBreadcrumb() {
+  const bc = document.getElementById("breadcrumb");
+  if (!history.length) { bc.innerHTML = ""; return; }
+  bc.innerHTML = history.map(h => {
+    const n = TREE[h.nodeId];
+    if (!n) return "";
+    const shortQ = n.q.replace(/<[^>]+>/g,"").split(" ").slice(0,5).join(" ") + "…";
+    const ansLabel = h.label || (h.answer === "yes" ? "Yes" : h.answer === "no" ? "No" : h.answer);
+    return `<div class="crumb"><span class="crumb-q">${shortQ}</span><span style="color:var(--gray-400);margin:0 3px">→</span><span class="crumb-a">${ansLabel}</span></div>`;
+  }).join("");
+}
+
+function renderQuestion(nodeId, node) {
+  const app = document.getElementById("app");
+  let optsHTML = "";
+
+  if (node.multiOpt && node.opts) {
+    optsHTML = node.opts.map(o =>
+      `<button class="opt opt-na" onclick="answerMulti('${nodeId}','${o.val}','${o.label.replace(/'/g,"\\'")}')">
+        <span class="opt-badge">→</span>
+        <span class="opt-text">
+          <span class="opt-label">${o.label}</span>
+          <span class="opt-sub">${o.sub}</span>
+        </span>
+      </button>`).join("");
+  } else if (node.opts) {
+    optsHTML = node.opts.map(o =>
+      `<button class="opt opt-na" onclick="answerOpt('${nodeId}','${o.val}','${o.label.replace(/'/g,"\\'")}')">
+        <span class="opt-badge">→</span>
+        <span class="opt-text">
+          <span class="opt-label">${o.label}</span>
+          <span class="opt-sub">${o.sub}</span>
+        </span>
+      </button>`).join("");
+  } else {
+    optsHTML = `
+      <button class="opt opt-yes" onclick="answer('${nodeId}','yes')">
+        <span class="opt-badge">✓</span>
+        <span class="opt-text"><span class="opt-label">Yes</span></span>
+      </button>
+      <button class="opt opt-no" onclick="answer('${nodeId}','no')">
+        <span class="opt-badge">✗</span>
+        <span class="opt-text"><span class="opt-label">No</span></span>
+      </button>`;
+  }
+
+  app.innerHTML = `
+    ${history.length > 0 ? `<button class="back-btn" onclick="goBack()">← Back</button>` : ""}
+    <div class="step-card">
+      <div class="step-eyebrow">
+        <span class="step-num">${node.stepNum}</span>
+        ${node.label || ""}
+      </div>
+      <div class="step-q">${node.q}</div>
+      ${node.hint ? `<div class="step-hint">${node.hint}</div>` : ""}
+      <div class="options">${optsHTML}</div>
+    </div>`;
+}
+
+function renderResult(key) {
+  document.getElementById("prog").style.width = "100%";
+  document.getElementById("prog-label").textContent = "Done";
+  const r = RESULTS[key];
+  const app = document.getElementById("app");
+
+  let specialHTML = "";
+  if (r.special) {
+    specialHTML = `<div class="result-special type-${r.special.type}"><strong>${r.special.heading}</strong>${r.special.body}</div>`;
+  }
+  if (r.examples && r.examples.length) {
+    specialHTML += `<div class="domain-examples">${r.examples.map(e=>`<span class="domain-chip">${e}</span>`).join("")}</div>`;
+  }
+
+  const primaryHTML = r.primary && r.primary.length ? r.primary.map(repo => `
+    <div class="repo-item primary">
+      <span class="repo-pill">Recommended</span>
+      <div>
+        <div class="repo-name">${repo.name}</div>
+        <div class="repo-desc">${repo.desc}</div>
+        <a class="repo-url" href="${repo.url}" target="_blank">${repo.url} ↗</a>
+      </div>
+    </div>`).join("") : "";
+
+  const alsoHTML = r.also && r.also.length ? `
+    <div class="also-section">
+      <div class="also-label">Also consider</div>
+      ${r.also.map(repo => `
+        <div class="repo-item" style="margin-bottom:8px">
+          <div>
+            <div class="repo-name">${repo.name}</div>
+            <div class="repo-desc">${repo.desc}</div>
+            <a class="repo-url" href="${repo.url}" target="_blank">${repo.url} ↗</a>
+          </div>
+        </div>`).join("")}
+    </div>` : "";
+
+  app.innerHTML = `
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    <div class="result-card">
+      <div class="result-header">
+        <div class="result-eyebrow">Recommendation</div>
+        <div class="result-title">${r.title}</div>
+      </div>
+      <div class="result-body">
+        ${specialHTML}
+        ${primaryHTML ? `<div class="repo-list">${primaryHTML}</div>` : ""}
+        ${alsoHTML}
+        ${r.note ? `<div class="result-note">${r.note}</div>` : ""}
+      </div>
+      <div class="action-row">
+        <button class="btn" onclick="restart()">↺ Start over</button>
+        <button class="btn btn-primary" onclick="window.open('https://osf.io/uadxr/','_blank')">View project on OSF ↗</button>
+      </div>
+      <div class="citation">
+        Decision logic based on: Barbosa et al. (2024). <a href="https://doi.org/10.5281/zenodo.11105430" target="_blank">GREI Repository Selection Flowchart</a>. Zenodo. CC BY 4.0 &nbsp;·&nbsp;
+        NIH DMSP Guidance Working Group &nbsp;·&nbsp;
+        Bernard Becker Medical Library, Washington University School of Medicine in St. Louis
+      </div>
+      <div style="height:14px"></div>
+    </div>`;
+}
+
+// ─── Navigation ────────────────────────────────────────────────────────────
+
+function answer(nodeId, ans) {
+  const node = TREE[nodeId];
+  history.push({ nodeId, answer: ans, label: ans === "yes" ? "Yes" : "No" });
+  const next = node[ans];
+  navigate(next);
+}
+
+function answerOpt(nodeId, val, label) {
+  const node = TREE[nodeId];
+  history.push({ nodeId, answer: val, label });
+  const next = node[val];
+  navigate(next);
+}
+
+function answerMulti(nodeId, val, label) {
+  history.push({ nodeId, answer: val, label });
+  // Size branching
+  if (val === "small")  navigate("s9_software");
+  else if (val === "medium") navigate({ result: "size_medium_result" });
+  else if (val === "large")  navigate({ result: "very_large_result" });
+}
+
+function navigate(next) {
+  if (typeof next === "string") current = next;
+  else if (next && next.result) current = next;
+  render();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function goBack() {
+  if (!history.length) return;
+  const last = history.pop();
+  current = last.nodeId;
+  render();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function restart() {
+  history = [];
+  current = "s1_funder";
+  render();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ─── Init ──────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
