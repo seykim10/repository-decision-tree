@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+message: "If you use this tool, please cite it as below."
+type: software
+title: "Repository Selection Decision Tree"
+abstract: "An interactive, self-contained HTML decision tree to help researchers select the most appropriate repository for sharing their research data, following the NIH DMSP guidance framework and the GREI Repository Selection Flowchart."
+authors:
+  - family-names: "Kim"
+    given-names: "Seonyoung"
+    affiliation: "Bernard Becker Medical Library, Washington University School of Medicine in St. Louis"
+    orcid: "https://orcid.org/0000-0002-8854-287X"
+repository-code: "https://github.com/seykim10/repository-decision-tree/"
+url: "https://seykim10.github.io/repository-decision-tree"
+license: CC-BY-4.0
+version: "0.1.0"
+date-released: "2026-05-18"
+keywords:
+  - "data management"
+  - "data sharing"
+  - "repository selection"
+  - "NIH DMSP"
+  - "GREI"
+  - "FAIR data"
+  - "open science"
+  - "research data management"
+references:
+  - type: article
+    authors:
+      - family-names: "Barbosa"
+        given-names: "Sonia"
+      - family-names: "Hahnel"
+        given-names: "Mark"
+      - family-names: "Halchenko"
+        given-names: "Yaroslav"
+      - family-names: "Lowndes"
+        given-names: "Julia"
+      - family-names: "Malin"
+        given-names: "Bradley"
+      - family-names: "Mietchen"
+        given-names: "Daniel"
+      - family-names: "Morin"
+        given-names: "Alexander"
+      - family-names: "Nudelman"
+        given-names: "Gunner"
+      - family-names: "Rios"
+        given-names: "Fernando"
+      - family-names: "Roche"
+        given-names: "Dominique"
+      - family-names: "Wilkinson"
+        given-names: "Mark"
+    title: "GREI Repository Selection Flowchart"
+    year: 2024
+    doi: "10.5281/zenodo.11105430"
+    publisher:
+      name: "Zenodo"
