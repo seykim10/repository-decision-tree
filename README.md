@@ -2,8 +2,6 @@
 
 An interactive, self-contained decision tree to help researchers select the most appropriate repository for sharing their research data, developed as part of the **NIH Data Management and Sharing Plan (DMSP) Guidance Working Group** project.
 
-> **Status:** Work in progress — currently under review by the NIH DMSP Guidance Working Group. Feedback welcome!
-
 ---
 
 ## 🔗 Try it
@@ -57,6 +55,8 @@ Click the [launch link](https://seykim10.github.io/repository-decision-tree) abo
 2. Open the file in any web browser (Chrome, Firefox, Safari, Edge)
 3. No internet connection required after download
 
+> **Note:** The "We welcome feedback" and "Share your feedback" mailto links require the tool to be served from a web server (e.g., the live GitHub Pages link above) to function. They will not open in Chrome when the file is opened locally.
+
 ---
 
 ## Source documents
@@ -64,7 +64,9 @@ Click the [launch link](https://seykim10.github.io/repository-decision-tree) abo
 This tool was built using the following source materials:
 
 - Barbosa, S., et al. (2024). *GREI Repository Selection Flowchart* (v1). Zenodo. <https://doi.org/10.5281/zenodo.11105430>
+- Becker Medical Library 5-step NIH DMSP repository selection framework: <https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy>
 - NIH repository selection guidance: <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific>
+- NIH Genomic Data Sharing (GDS) Policy — Where to Submit: <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/where-to-submit>
 - NIH Controlled Access Data Repositories (CADRs): <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/requirements>
 - NIH-Supported Scientific Data Repositories: <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific#nih-supported-scientific-data-repositories*>
 - BMIC List of Domain-Specific Repositories: <https://www.nlm.nih.gov/NIHbmic/nih_data_sharing_repositories.html>
@@ -78,7 +80,7 @@ This tool was built using the following source materials:
 
 ## Development
 
-This tool was developed using AI-assisted coding (Claude, Anthropic) with iterative refinement based on the source documents listed above. The decision logic, repository descriptions, and content were reviewed and validated by Seonyoung Kim, Senior Support Scientist at the Bernard Becker Medical Library and a member of the NIH DMSP Guidance Working Group.
+This tool was developed by Seonyoung Kim using AI-assisted coding (Claude, Anthropic) with iterative refinement based on the source documents listed above. The decision logic, repository descriptions, and content were reviewed and validated by Seonyoung Kim, Senior Support Scientist at the Bernard Becker Medical Library and a member of the NIH DMSP Guidance Working Group.
 
 The tool is built as a single, self-contained HTML file using standard HTML, CSS, and JavaScript — no external frameworks or server required.
 
@@ -86,7 +88,7 @@ The tool is built as a single, self-contained HTML file using standard HTML, CSS
 
 ## Feedback
 
-This tool is a work in progress and is currently under review by the NIH DMSP Guidance Working Group. We welcome feedback from the community:
+Feedback on this tool is welcome via the **💬 Share your feedback** link built into every page of the tool, or through the channels below:
 
 - **Open an issue** on this GitHub repository
 - **Contact:** Seonyoung Kim | seonyoung.kim@wustl.edu | Bernard Becker Medical Library, Washington University School of Medicine in St. Louis
@@ -95,11 +97,15 @@ This tool is a work in progress and is currently under review by the NIH DMSP Gu
 
 ## Credits
 
-**Developed by:** Seonyoung Kim, Bernard Becker Medical Library, Washington University School of Medicine in St. Louis
+**Developed by:** [Seonyoung Kim](https://orcid.org/0000-0002-8854-287X), Bernard Becker Medical Library, Washington University School of Medicine in St. Louis
 
 **Working Group:** NIH DMSP Guidance Working Group
 
-**Based on:** Barbosa et al. (2024) GREI Repository Selection Flowchart, and NIH DMSP repository selection guidance
+**Content feedback (v0.2.0):** Christine Nieman Hislop, University of Maryland; Marla Hertz, University of Alabama at Birmingham
+
+**Accessibility review (v0.3.0):** Christine Nieman Hislop, University of Maryland (using the [WAVE Evaluation Tool](https://wave.webaim.org/))
+
+**Based on:** Barbosa et al. (2024) GREI Repository Selection Flowchart, the Becker Medical Library 5-step NIH DMSP repository selection framework, and NIH DMSP repository selection guidance
 
 ---
 
