@@ -122,7 +122,7 @@
   .progress-wrap { margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
   .progress-track { flex: 1; height: 5px; background: var(--gray-200); border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--nih-blue); border-radius: 3px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
-  .progress-label { font-size: 11px; color: var(--gray-400); white-space: nowrap; min-width: 40px; text-align: right; }
+  .progress-label { font-size: 11px; color: var(--gray-600); white-space: nowrap; min-width: 40px; text-align: right; }
 
   /* ── Breadcrumb ── */
   .breadcrumb { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 18px; min-height: 24px; }
@@ -167,7 +167,7 @@
   }
   .step-q {
     font-family: var(--font-serif);
-    font-size: 18px; font-weight: 400;
+    font-size: 22px; font-weight: 400;
     color: var(--gray-900); line-height: 1.45;
     margin-bottom: 12px;
   }
@@ -250,6 +250,7 @@
   .result-title {
     font-family: var(--font-serif);
     font-size: 19px; font-weight: 400; line-height: 1.35;
+    margin: 0;
   }
   .result-body { padding: 22px 28px; }
 
@@ -302,7 +303,7 @@
   .also-section { margin-top: 16px; }
   .also-label {
     font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--gray-400); margin-bottom: 8px;
+    text-transform: uppercase; color: var(--gray-600); margin-bottom: 8px;
   }
 
   .result-note {
@@ -337,7 +338,7 @@
   .btn-primary:hover { background: var(--nih-blue-mid); border-color: var(--nih-blue-mid); }
 
   .citation {
-    font-size: 11px; color: var(--gray-400);
+    font-size: 11px; color: var(--gray-600);
     padding: 10px 28px 16px; line-height: 1.6;
   }
   .citation a { color: var(--nih-blue); text-decoration: none; }
@@ -377,7 +378,7 @@
     padding: 20px 24px;
     max-width: 880px;
     margin-left: auto; margin-right: auto;
-    font-size: 12px; color: var(--gray-400); line-height: 1.6;
+    font-size: 12px; color: var(--gray-600); line-height: 1.6;
     display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;
     align-items: flex-start;
   }
@@ -386,10 +387,41 @@
 
   @media (max-width: 600px) {
     .step-card, .result-body, .action-row { padding-left: 16px; padding-right: 16px; }
-    .step-q { font-size: 16px; }
+    .step-q { font-size: 19px; }
     .intro { flex-direction: column; gap: 12px; }
     .header-logo { display: none; }
   }
+  .feedback-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--nih-blue);
+    text-decoration: none;
+    padding: 5px 12px;
+    border: 1px solid var(--nih-blue);
+    border-radius: 20px;
+    margin-top: 10px;
+    transition: background var(--t), color var(--t);
+  }
+  .feedback-link:hover { background: var(--nih-blue); color: white; }
+
+  /* ── Feedback bar ── */
+  .feedback-bar {
+    text-align: center;
+    padding: 14px 20px;
+    margin-top: 24px;
+    border-top: 1px solid var(--gray-200);
+    font-size: 13px;
+    color: var(--gray-600);
+  }
+  .feedback-bar a {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--nih-blue); text-decoration: none;
+    padding: 5px 14px;
+    border: 1px solid var(--nih-blue);
+    border-radius: 20px;
+    transition: background var(--t), color var(--t);
+    margin-left: 8px;
+  }
+  .feedback-bar a:hover { background: var(--nih-blue); color: white; }
 </style>
 </head>
 <body>
@@ -412,6 +444,7 @@
       <h1>How to select a data repository</h1>
       <p>Answer a series of questions to identify the most appropriate repository for sharing your research data. This tool follows the NIH Data Management and Sharing Plan (DMSP) guidance framework — checking funder mandates and domain-specific repositories first, then institutional options, before recommending from the GREI generalist repositories.</p>
       <p>Developed as part of the <strong>NIH DMSP Guidance Working Group</strong> project. Based on the <a href="https://doi.org/10.5281/zenodo.11105430" style="color:var(--nih-blue)">GREI Repository Selection Flowchart</a> (Barbosa et al., 2024) and <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific" style="color:var(--nih-blue)" target="_blank">NIH repository selection guidance</a>.</p>
+      <p><a href="mailto:seonyoung.kim@wustl.edu?subject=Repository%20Selection%20Tool%20Feedback" class="feedback-link">💬 We welcome feedback on this tool</a></p>
       <div class="tags"><span style="font-size:11px;color:var(--gray-600);font-weight:600;align-self:center;margin-right:4px;">Keywords:</span>
         <span class="tag">NIH DMSP</span>
         <span class="tag">FAIR Data</span>
@@ -428,16 +461,22 @@
   </div>
   <div class="breadcrumb" id="breadcrumb"></div>
   <div id="app"></div>
-
   <!-- Resources panel -->
   <div class="resources-box">
-    <div class="resources-title">Additional tools &amp; resources for finding a repository</div>
+    <h2 class="resources-title">Additional tools &amp; resources for finding a repository</h2>
     <div class="resource-links">
       <a class="resource-link" href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank">
         <span>🏛️</span>
         <div>
           <span class="rl-title">NIH-Supported Scientific Data Repositories</span>
           <span class="rl-sub">Filter by NIH Institute/Center (ICO) or keyword</span>
+        </div>
+      </a>
+      <a class="resource-link" href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/where-to-submit" target="_blank">
+        <span>🧬</span>
+        <div>
+          <span class="rl-title">NIH — Where to Submit Genomic Data</span>
+          <span class="rl-sub">Examples of frequently used repositories for human genomic data, per NIH Genomic Data Sharing (GDS) Policy</span>
         </div>
       </a>
       <a class="resource-link" href="https://www.nlm.nih.gov/NIHbmic/nih_data_sharing_repositories.html" target="_blank">
@@ -489,10 +528,10 @@
 
 <footer class="site-footer">
   <div>
-    Developed as part of the <strong>NIH DMSP Guidance Working Group</strong> project. Shared via <a href="https://osf.io/uadxr/" target="_blank">OSF (osf.io/uadxr)</a>.
+    Developed by <strong><a href="https://orcid.org/0000-0002-8854-287X" target="_blank" style="color:inherit;">Seonyoung Kim</a></strong> at the Bernard Becker Medical Library, Washington University School of Medicine in St. Louis, as part of the <strong>NIH DMSP Guidance Working Group</strong> project. Shared via <a href="https://osf.io/d8kzu/overview" target="_blank">OSF (osf.io/d8kzu/overview)</a>.
   </div>
   <div>
-    Decision logic based on: Barbosa et al. (2024). <a href="https://doi.org/10.5281/zenodo.11105430" target="_blank">GREI Repository Selection Flowchart</a>. Zenodo. CC BY 4.0.
+    Decision logic based on: Barbosa et al. (2024). <a href="https://doi.org/10.5281/zenodo.11105430" target="_blank">GREI Repository Selection Flowchart</a>. Zenodo. CC BY 4.0 &bull; <a href="https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy" target="_blank">Becker Medical Library 5-step NIH DMSP repository selection framework</a>
   </div>
 </footer>
 
@@ -921,6 +960,7 @@ function renderQuestion(nodeId, node) {
       </button>`;
   }
 
+  const fbSubjectQ = encodeURIComponent('Repository Selection Tool Feedback — Step ' + node.stepNum + ', ' + (node.label || ''));
   app.innerHTML = `
     ${history.length > 0 ? '<div style="display:flex;gap:10px;margin-bottom:14px;"><button class="back-btn" onclick="goBack()">&#8592; Back</button><button class="back-btn" onclick="restart()" style="color:var(--red)">&#8635; Start over</button></div>' : ""}
     <div class="step-card">
@@ -928,10 +968,11 @@ function renderQuestion(nodeId, node) {
         <span class="step-num">${node.stepNum}</span>
         ${node.label || ""}
       </div>
-      <div class="step-q">${node.q}</div>
+      <h2 class="step-q">${node.q}</h2>
       ${node.hint ? `<div class="step-hint">${node.hint}</div>` : ""}
       <div class="options">${optsHTML}</div>
-    </div>`;
+    </div>
+    <div class="feedback-bar">Have feedback about this tool? <a href="mailto:seonyoung.kim@wustl.edu?subject=${fbSubjectQ}" target="_blank">&#128172; Share your feedback</a></div>`;
 }
 
 function renderResult(key) {
@@ -939,6 +980,7 @@ function renderResult(key) {
   document.getElementById("prog-label").textContent = "Done";
   const r = RESULTS[key];
   const app = document.getElementById("app");
+  const fbSubjectR = encodeURIComponent('Repository Selection Tool Feedback — Result, ' + (r ? r.title : ''));
 
   let specialHTML = "";
   if (r.special) {
@@ -976,7 +1018,7 @@ function renderResult(key) {
     <div class="result-card">
       <div class="result-header">
         <div class="result-eyebrow">Recommendation</div>
-        <div class="result-title">${r.title}</div>
+        <h2 class="result-title">${r.title}</h2>
       </div>
       <div class="result-body">
         ${specialHTML}
@@ -990,11 +1032,13 @@ function renderResult(key) {
       </div>
       <div class="citation">
         Decision logic based on: Barbosa et al. (2024). <a href="https://doi.org/10.5281/zenodo.11105430" target="_blank">GREI Repository Selection Flowchart</a>. Zenodo. CC BY 4.0 &nbsp;·&nbsp;
+        <a href="https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy" target="_blank">Becker Medical Library 5-step NIH DMSP repository selection framework</a> &nbsp;·&nbsp;
         NIH DMSP Guidance Working Group &nbsp;·&nbsp;
         Bernard Becker Medical Library, Washington University School of Medicine in St. Louis
       </div>
       <div style="height:14px"></div>
-    </div>`;
+    </div>
+    <div class="feedback-bar">Have feedback about this tool? <a href="mailto:seonyoung.kim@wustl.edu?subject=${fbSubjectR}" target="_blank">&#128172; Share your feedback</a></div>`;
 }
 
 // ─── Navigation ────────────────────────────────────────────────────────────
@@ -1045,6 +1089,7 @@ function restart() {
 
 // ─── Init ──────────────────────────────────────────────────────────────────
 render();
+
 </script>
 </body>
 </html>
