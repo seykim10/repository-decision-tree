@@ -2,7 +2,7 @@
 
 An interactive, self-contained decision tree to help researchers select the most appropriate repository for sharing their research data, developed as part of the **NIH Data Management and Sharing Plan (DMSP) Guidance Working Group** project.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20317424.svg)](https://doi.org/10.5281/zenodo.20317424)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20317425.svg)](https://doi.org/10.5281/zenodo.20317424)
 [![CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
 ---
