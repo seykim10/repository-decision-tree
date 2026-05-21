@@ -2,6 +2,9 @@
 
 An interactive, self-contained decision tree to help researchers select the most appropriate repository for sharing their research data, developed as part of the **NIH Data Management and Sharing Plan (DMSP) Guidance Working Group** project.
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20317425.svg)](https://doi.org/10.5281/zenodo.20317425)
+[![CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+
 ---
 
 ## 🔗 Try it
@@ -106,6 +109,16 @@ Feedback on this tool is welcome via the **💬 Share your feedback** link built
 **Accessibility review (v0.3.0):** Christine Nieman Hislop, University of Maryland (using the [WAVE Evaluation Tool](https://wave.webaim.org/))
 
 **Based on:** Barbosa et al. (2024) GREI Repository Selection Flowchart, the Becker Medical Library 5-step NIH DMSP repository selection framework, and NIH DMSP repository selection guidance
+
+---
+
+## Citation
+
+If you use this tool, please cite it as:
+
+> Kim, S. (2026). *Repository Selection Decision Tree* (v0.3.0). Zenodo. https://doi.org/10.5281/zenodo.20317425
+
+Or use the `CITATION.cff` file in this repository for formatted citations in your reference manager.
 
 ---
 

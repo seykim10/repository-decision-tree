@@ -10,9 +10,10 @@ authors:
     orcid: "https://orcid.org/0000-0002-8854-287X"
 repository-code: "https://github.com/seykim10/repository-decision-tree/"
 url: "https://seykim10.github.io/repository-decision-tree"
+doi: "10.5281/zenodo.20317425"
 license: CC-BY-4.0
-version: "0.1.0"
-date-released: "2026-05-18"
+version: "0.3.0"
+date-released: "2026-05-20"
 keywords:
   - "data management"
   - "data sharing"
