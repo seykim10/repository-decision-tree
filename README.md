@@ -2,7 +2,7 @@
 
 An interactive, self-contained decision tree to help researchers select the most appropriate repository for sharing their research data, developed as part of the **NIH Data Management and Sharing Plan (DMSP) Guidance Working Group** project.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20317425.svg)](https://doi.org/10.5281/zenodo.20317424)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20317424.svg)](https://doi.org/10.5281/zenodo.20317424)
 [![CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
 ---
@@ -17,31 +17,35 @@ No installation, login, or internet connection required. Just click and use in a
 
 ## About
 
-This tool guides researchers and research support staff through a structured, step-by-step process for selecting the most appropriate repository for their data. It checks funder mandates and domain-specific repositories first, then institutional options, before recommending from the GREI generalist repositories.
+This tool guides researchers and research support staff through a structured, step-by-step process for selecting the most appropriate repository for their data. It checks funder mandates and domain-specific repositories first, routes genomic data to NIH-designated repositories, then considers institutional options, before recommending from the GREI generalist repositories.
 
-It combines two complementary frameworks:
+It combines complementary frameworks and policies:
 
 1. **A 5-step NIH DMSP repository selection framework** ([Becker Medical Library framework](https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy)) developed at the Bernard Becker Medical Library, Washington University School of Medicine in St. Louis, which prioritizes:
    - Funder/FOA/NOFO-mandated repositories
    - Model organism-specific repositories
    - Disease- or organ-specific repositories
+   - Genomic data repositories (per the NIH GDS Policy)
    - Data type- or method-specific repositories
    - NIH IC-specific central repositories
    - Institutional repositories
 
-2. **The GREI Repository Selection Flowchart** (Barbosa et al., 2024; [doi:10.5281/zenodo.11105430](https://doi.org/10.5281/zenodo.11105430)), which guides selection among the seven NIH GREI generalist repositories: Dataverse, Dryad, Figshare, Mendeley Data, OSF, Vivli, and Zenodo.
+2. **The GREI Repository Selection Flowchart** (Barbosa et al., 2024; [doi:10.5281/zenodo.11105429](https://doi.org/10.5281/zenodo.11105429)), which guides selection among the seven NIH GREI generalist repositories: Dataverse, Dryad, Figshare, Mendeley Data, OSF, Vivli, and Zenodo.
+
+3. **The NIH Genomic Data Sharing (GDS) Policy** ([overview](https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview)), which governs the sharing of NIH-funded genomic data and the choice of designated human and non-human genomic repositories.
 
 ### Decision points covered
 
 - Funding Opportunity Announcement (FOA) / Notice of Funding Opportunity (NOFO) mandates
 - Model organism-specific repository availability
 - Disease- or organ-specific repository availability
-- Data type- or method-specific repository availability (imaging, genomics, proteomics, metabolomics, qualitative data, and more)
+- **Genomic data** — human vs. non-human routing to NIH-designated genomic repositories, per the NIH GDS Policy
+- Data type- or method-specific repository availability (imaging, omics, flow cytometry, human research, software & code, and more)
 - NIH IC-specific central repository availability
 - Institutional repository availability
 - Human subjects data, PHI/PII, and managed access requirements
 - Dataset size (under 50 GB / 50–300 GB / over 300 GB)
-- Software and code outputs
+- Software and code outputs (with GitHub → Zenodo archiving guidance)
 - Data curation needs
 - Licensing requirements
 - Project management needs
@@ -66,10 +70,13 @@ Click the [launch link](https://seykim10.github.io/repository-decision-tree) abo
 
 This tool was built using the following source materials:
 
-- Barbosa, S., et al. (2024). *GREI Repository Selection Flowchart* (v1). Zenodo. <https://doi.org/10.5281/zenodo.11105430>
+- Barbosa, S., et al. (2024). *GREI Repository Selection Flowchart*. Zenodo. <https://doi.org/10.5281/zenodo.11105429>
+- Kim, S. (2024). *How to Select a Data Repository* [Video]. FASEB DataWorks! Seminar Series. <https://www.youtube.com/watch?v=OO2UEOKhLjQ>
 - Becker Medical Library 5-step NIH DMSP repository selection framework: <https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy>
 - NIH repository selection guidance: <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific>
+- NIH Genomic Data Sharing (GDS) Policy — Overview: <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview>
 - NIH Genomic Data Sharing (GDS) Policy — Where to Submit: <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/where-to-submit>
+- NIH GDS — Genomic Data Sharing Expectations by IC: <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/expectations-by-ics>
 - NIH Controlled Access Data Repositories (CADRs): <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/requirements>
 - NIH-Supported Scientific Data Repositories: <https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific#nih-supported-scientific-data-repositories*>
 - BMIC List of Domain-Specific Repositories: <https://www.nlm.nih.gov/NIHbmic/nih_data_sharing_repositories.html>
@@ -77,6 +84,7 @@ This tool was built using the following source materials:
 - NNLM Data Repository Finder: <https://www.nnlm.gov/resources/finder>
 - NICHD Data Repository Finder: <https://data-repository-finder.ll.mit.edu/>
 - re3data.org — Registry of Research Data Repositories: <https://www.re3data.org>
+- FAIRsharing.org — Registry of databases, standards, and policies: <https://fairsharing.org/databases>
 - GREI Repository Comparison Chart: <https://zenodo.org/records/17315963>
 
 ---
@@ -98,6 +106,16 @@ Feedback on this tool is welcome via the **💬 Share your feedback** link built
 
 ---
 
+## Citation
+
+If you use this tool, please cite it as:
+
+> Kim, S. (2026). *Repository Selection Decision Tree*. Zenodo. https://doi.org/10.5281/zenodo.20317424
+
+Or use the `CITATION.cff` file in this repository for formatted citations in your reference manager. The DOI above is the concept DOI, which always resolves to the latest version.
+
+---
+
 ## Credits
 
 **Developed by:** [Seonyoung Kim](https://orcid.org/0000-0002-8854-287X), Bernard Becker Medical Library, Washington University School of Medicine in St. Louis
@@ -108,17 +126,7 @@ Feedback on this tool is welcome via the **💬 Share your feedback** link built
 
 **Accessibility review (v0.3.0):** Christine Nieman Hislop, University of Maryland (using the [WAVE Evaluation Tool](https://wave.webaim.org/))
 
-**Based on:** Barbosa et al. (2024) GREI Repository Selection Flowchart, the Becker Medical Library 5-step NIH DMSP repository selection framework, and NIH DMSP repository selection guidance
-
----
-
-## Citation
-
-If you use this tool, please cite it as:
-
-> Kim, S. (2026). *Repository Selection Decision Tree* (v0.3.0). Zenodo. https://doi.org/10.5281/zenodo.20317424
-
-Or use the `CITATION.cff` file in this repository for formatted citations in your reference manager.
+**Based on:** Barbosa et al. (2024) GREI Repository Selection Flowchart; the Becker Medical Library 5-step NIH DMSP repository selection framework; NIH DMSP repository selection guidance; and the NIH Genomic Data Sharing (GDS) Policy. The repository-selection framework was also presented by Seonyoung Kim in the [FASEB DataWorks! seminar "How to Select a Data Repository"](https://www.youtube.com/watch?v=OO2UEOKhLjQ).
 
 ---
 

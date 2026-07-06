@@ -158,6 +158,9 @@
     text-transform: uppercase; color: var(--nih-blue);
     margin-bottom: 12px;
   }
+  .step-icon { font-size: 14px; margin-right: 2px; }
+  .step-q:focus, .result-title:focus { outline: none; }
+
   .step-num {
     width: 22px; height: 22px;
     background: var(--nih-blue); color: white;
@@ -268,6 +271,8 @@
   .result-special.type-warn   { border-color: var(--red);   background: var(--red-light);   color: #5a1010; }
 
   .domain-examples { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .cat-group { margin-top: 14px; }
+  .cat-label { font-size: 12px; font-weight: 600; color: var(--gray-900); margin-bottom: 2px; }
   .domain-chip {
     font-size: 11px; padding: 3px 10px;
     background: white; border: 1px solid var(--gray-200);
@@ -429,7 +434,7 @@
 <header class="site-header">
   <div class="header-inner">
     <div class="header-logo">
-      <a href="https://doi.org/10.17605/OSF.IO/D8KZU" target="_blank" style="color:white;text-decoration:none;"><strong>NIH DMSP Guidance Working Group</strong></a>
+      <a href="https://doi.org/10.17605/OSF.IO/D8KZU" target="_blank" rel="noopener noreferrer" style="color:white;text-decoration:none;"><strong>NIH DMSP Guidance Working Group</strong></a>
       Repository Selection Decision Tree
     </div>
     <div class="header-title">Repository Selection Decision Tree</div>
@@ -443,7 +448,7 @@
     <div>
       <h1>How to select a data repository</h1>
       <p>Answer a series of questions to identify the most appropriate repository for sharing your research data. This tool follows the NIH Data Management and Sharing Plan (DMSP) guidance framework — checking funder mandates and domain-specific repositories first, then institutional options, before recommending from the GREI generalist repositories.</p>
-      <p>Developed as part of the <strong>NIH DMSP Guidance Working Group</strong> project. Based on the <a href="https://doi.org/10.5281/zenodo.11105430" style="color:var(--nih-blue)">GREI Repository Selection Flowchart</a> (Barbosa et al., 2024) and <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific" style="color:var(--nih-blue)" target="_blank">NIH repository selection guidance</a>.</p>
+      <p>Developed as part of the <strong>NIH DMSP Guidance Working Group</strong> project. Based on the <a href="https://doi.org/10.5281/zenodo.11105429" style="color:var(--nih-blue)" target="_blank" rel="noopener noreferrer">GREI Repository Selection Flowchart</a> (Barbosa et al., 2024), the <a href="https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy" style="color:var(--nih-blue)" target="_blank" rel="noopener noreferrer">Becker Medical Library 5-step NIH DMSP repository selection framework</a>, <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific" style="color:var(--nih-blue)" target="_blank" rel="noopener noreferrer">NIH repository selection guidance</a>, and the <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview" style="color:var(--nih-blue)" target="_blank" rel="noopener noreferrer">NIH Genomic Data Sharing (GDS) Policy</a>.</p>
       <p><a href="mailto:seonyoung.kim@wustl.edu?subject=Repository%20Selection%20Tool%20Feedback" class="feedback-link">💬 We welcome feedback on this tool</a></p>
       <div class="tags"><span style="font-size:11px;color:var(--gray-600);font-weight:600;align-self:center;margin-right:4px;">Keywords:</span>
         <span class="tag">NIH DMSP</span>
@@ -456,7 +461,7 @@
   </div>
 
   <div class="progress-wrap">
-    <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div class="progress-track" id="prog-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progress through the decision tree"><div class="progress-fill" id="prog" style="width:0%"></div></div>
     <div class="progress-label" id="prog-label">Step 1</div>
   </div>
   <div class="breadcrumb" id="breadcrumb"></div>
@@ -465,56 +470,63 @@
   <div class="resources-box">
     <h2 class="resources-title">Additional tools &amp; resources for finding a repository</h2>
     <div class="resource-links">
-      <a class="resource-link" href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank">
+      <a class="resource-link" href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank" rel="noopener noreferrer">
         <span>🏛️</span>
         <div>
           <span class="rl-title">NIH-Supported Scientific Data Repositories</span>
           <span class="rl-sub">Filter by NIH Institute/Center (ICO) or keyword</span>
         </div>
       </a>
-      <a class="resource-link" href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/where-to-submit" target="_blank">
+      <a class="resource-link" href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/where-to-submit" target="_blank" rel="noopener noreferrer">
         <span>🧬</span>
         <div>
           <span class="rl-title">NIH — Where to Submit Genomic Data</span>
           <span class="rl-sub">Examples of frequently used repositories for human genomic data, per NIH Genomic Data Sharing (GDS) Policy</span>
         </div>
       </a>
-      <a class="resource-link" href="https://www.nlm.nih.gov/NIHbmic/nih_data_sharing_repositories.html" target="_blank">
+      <a class="resource-link" href="https://www.nlm.nih.gov/NIHbmic/nih_data_sharing_repositories.html" target="_blank" rel="noopener noreferrer">
         <span>🔍</span>
         <div>
           <span class="rl-title">BMIC Lists of Data Sharing Repositories</span>
           <span class="rl-sub">Domain-specific and generalist repositories with filtering options</span>
         </div>
       </a>
-      <a class="resource-link" href="https://www.nnlm.gov/resources/finder" target="_blank">
+      <a class="resource-link" href="https://www.nnlm.gov/resources/finder" target="_blank" rel="noopener noreferrer">
         <span>🧭</span>
         <div>
           <span class="rl-title">NNLM Data Repository Finder</span>
           <span class="rl-sub">6 filtering options; generates a side-by-side comparison table</span>
         </div>
       </a>
-      <a class="resource-link" href="https://data-repository-finder.ll.mit.edu/" target="_blank">
+      <a class="resource-link" href="https://data-repository-finder.ll.mit.edu/" target="_blank" rel="noopener noreferrer">
         <span>🩺</span>
         <div>
           <span class="rl-title">NICHD Data Repository Finder</span>
           <span class="rl-sub">5 major + 6 additional filters; compare up to 3 repositories</span>
         </div>
       </a>
-      <a class="resource-link" href="https://www.re3data.org/" target="_blank">
+      <a class="resource-link" href="https://www.re3data.org/" target="_blank" rel="noopener noreferrer">
         <span>🌐</span>
         <div>
           <span class="rl-title">re3data.org — Registry of Research Data Repositories</span>
           <span class="rl-sub">Largest global database of repositories; browse by subject, content type, or country</span>
         </div>
       </a>
-      <a class="resource-link" href="https://doi.org/10.5281/zenodo.11105430" target="_blank">
+      <a class="resource-link" href="https://fairsharing.org/" target="_blank" rel="noopener noreferrer">
+        <span>🔗</span>
+        <div>
+          <span class="rl-title">FAIRsharing.org</span>
+          <span class="rl-sub">Curated registry of databases, standards, and policies across disciplines; search for repositories that meet FAIR and journal/funder requirements</span>
+        </div>
+      </a>
+      <a class="resource-link" href="https://doi.org/10.5281/zenodo.11105429" target="_blank" rel="noopener noreferrer">
         <span>📋</span>
         <div>
           <span class="rl-title">GREI Repository Selection Flowchart (Barbosa et al., 2024)</span>
           <span class="rl-sub">Original source flowchart for generalist repository selection — Zenodo</span>
         </div>
       </a>
-      <a class="resource-link" href="https://zenodo.org/records/17315963" target="_blank">
+      <a class="resource-link" href="https://zenodo.org/records/17315963" target="_blank" rel="noopener noreferrer">
         <span>📊</span>
         <div>
           <span class="rl-title">GREI Repositories Comparison Chart</span>
@@ -528,10 +540,10 @@
 
 <footer class="site-footer">
   <div>
-    Developed by <strong><a href="https://orcid.org/0000-0002-8854-287X" target="_blank" style="color:inherit;">Seonyoung Kim</a></strong> at the Bernard Becker Medical Library, Washington University School of Medicine in St. Louis, as part of the <strong>NIH DMSP Guidance Working Group</strong> project. Shared via <a href="https://osf.io/d8kzu/overview" target="_blank">OSF (osf.io/d8kzu/overview)</a>.
+    Developed by <strong><a href="https://orcid.org/0000-0002-8854-287X" target="_blank" rel="noopener noreferrer" style="color:inherit;">Seonyoung Kim</a></strong> at the Bernard Becker Medical Library, Washington University School of Medicine in St. Louis, as part of the <strong>NIH DMSP Guidance Working Group</strong> project. Shared via <a href="https://osf.io/d8kzu/overview" target="_blank" rel="noopener noreferrer">OSF (osf.io/d8kzu/overview)</a>.
   </div>
   <div>
-    Decision logic based on: Barbosa et al. (2024). <a href="https://doi.org/10.5281/zenodo.11105430" target="_blank">GREI Repository Selection Flowchart</a>. Zenodo. CC BY 4.0 &bull; <a href="https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy" target="_blank">Becker Medical Library 5-step NIH DMSP repository selection framework</a>
+    Decision logic based on: Barbosa et al. (2024). <a href="https://doi.org/10.5281/zenodo.11105429" target="_blank" rel="noopener noreferrer">GREI Repository Selection Flowchart</a>. Zenodo. CC BY 4.0 &bull; <a href="https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy" target="_blank" rel="noopener noreferrer">Becker Medical Library 5-step NIH DMSP repository selection framework</a> &bull; <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific" target="_blank" rel="noopener noreferrer">NIH repository selection guidance</a> &bull; <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview" target="_blank" rel="noopener noreferrer">NIH Genomic Data Sharing (GDS) Policy</a>
   </div>
 </footer>
 
@@ -588,6 +600,7 @@ const TREE = {
   // ── STEP 1: FOA/NOFO funder mandate ──────────────────────────────────────
   s1_funder: {
     stepNum: 1,
+    icon: "⚠️",
     label: "Funding requirements",
     q: "Does your Funding Opportunity Announcement (FOA) or Notice of Funding Opportunity (NOFO) specify a required repository?",
     hint: `Check the Data Management and Sharing section of your FOA or NOFO. NIH Institutes and Centers sometimes mandate specific repositories (e.g., NIA's ELITE portal, NIDDK Central Repository, NCI Cancer Research Data Commons). When specified, that repository must be used.`,
@@ -598,9 +611,10 @@ const TREE = {
   // ── STEP 2: Model organism ────────────────────────────────────────────────
   s2_organism: {
     stepNum: 2,
+    icon: "🏛️",
     label: "Organism-specific repository",
     q: "Is there a model organism-specific repository appropriate for your data?",
-    hint: `Examples: MGI (mouse), ZFIN (zebrafish), FlyBase (Drosophila), WormBase (C. elegans), RGD (rat). Check the <a href="https://www.nlm.nih.gov/NIHbmic/nih_data_sharing_repositories.html" target="_blank">BMIC lists</a> for a full listing. These repositories provide community-standard metadata and are frequently preferred by NIH ICs.`,
+    hint: `Examples: MGI (mouse), ZFIN (zebrafish), FlyBase (Drosophila), WormBase (C. elegans), RGD (rat). Check the <a href="https://www.nlm.nih.gov/NIHbmic/nih_data_sharing_repositories.html" target="_blank" rel="noopener noreferrer">BMIC lists</a> for a full listing. These repositories provide community-standard metadata and are frequently preferred by NIH ICs.`,
     yes: { result: "organism_result" },
     no: "s3_disease"
   },
@@ -608,36 +622,68 @@ const TREE = {
   // ── STEP 3: Disease / organ specific ─────────────────────────────────────
   s3_disease: {
     stepNum: 3,
+    icon: "🏛️",
     label: "Disease or organ-specific repository",
     q: "Is there a disease-specific or organ-specific repository appropriate for your data?",
-    hint: `Examples: The Cancer Imaging Archive (TCIA) for cancer imaging data; AD Knowledge Portal for Alzheimer's Disease data; Federal Interagency Traumatic Brain Injury Research (FITBIR) Informatics System for TBI data. Use the <a href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank">NIH repository list</a> to search for others.`,
+    hint: `Examples: The Cancer Imaging Archive (TCIA) for cancer imaging data; AD Knowledge Portal for Alzheimer's Disease data; Federal Interagency Traumatic Brain Injury Research (FITBIR) Informatics System for TBI data. Use the <a href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank" rel="noopener noreferrer">NIH repository list</a> to search for others.`,
     yes: { result: "disease_result" },
+    no: "s_genomic"
+  },
+
+  // ── STEP 4: Genomic data (NIH GDS Policy) ────────────────────────────────
+  s_genomic: {
+    stepNum: 4,
+    icon: "🧬",
+    label: "Genomic data",
+    q: "Does your project generate genomic data?",
+    hint: `Genomic data includes sequence data such as whole-genome/whole-exome sequencing, RNA-seq, genotyping arrays, and variant data. Sharing of NIH-funded genomic data is governed by the <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview" target="_blank" rel="noopener noreferrer">NIH Genomic Data Sharing (GDS) Policy</a>. See <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/where-to-submit" target="_blank" rel="noopener noreferrer">Where to Submit Genomic Data</a> for designated repositories.`,
+    yes: "s_genomic_human",
     no: "s4_datatype"
   },
 
-  // ── STEP 4: Data type / method specific ──────────────────────────────────
+  // ── STEP 4a: Human vs non-human genomic ──────────────────────────────────
+  s_genomic_human: {
+    stepNum: "4a",
+    icon: "🧬",
+    label: "Human genomic data",
+    q: "Is this human genomic data?",
+    hint: `Human genomic data is subject to additional protections under the NIH GDS Policy and typically requires controlled-access submission (e.g., through dbGaP) along with Institutional Certification. Non-human genomic data generally uses open-access sequence repositories.`,
+    yes: { result: "human_genomic_result" },
+    no: { result: "nonhuman_genomic_result" }
+  },
+
+  // ── STEP 5: Data type / method specific ──────────────────────────────────
   s4_datatype: {
-    stepNum: 4,
+    stepNum: 5,
+    icon: "🗂️",
     label: "Data type-specific repository",
     q: "Is there a data type-specific or method-specific repository appropriate for your data?",
-    hint: `<strong>Imaging:</strong> OpenNeuro, Image &amp; Data Archive (IDA), IDR (Image Data Resource), EMPIAR (Electron Microscopy Public Image Archive) &nbsp;|&nbsp; <strong>Biochemical/biophysical:</strong> Protein Data Bank, EMDB (Electron Microscopy Data Bank), Flow Repository &nbsp;|&nbsp; <strong>Genomics:</strong> dbGaP, GEO (Gene Expression Omnibus) &nbsp;|&nbsp; <strong>Proteomics:</strong> PeptideAtlas, PRIDE &nbsp;|&nbsp; <strong>Metabolomics:</strong> Metabolomics Workbench &nbsp;|&nbsp; <strong>Qualitative data:</strong> QDR (Qualitative Data Repository), ICPSR, DataBrary`,
+    hint: `Repositories organized by data category:<br>
+      <strong>🔬 Imaging</strong> (microscopy, MRI, CT, PET) — OpenNeuro, Image &amp; Data Archive (IDA), IDR, BioImage Archive, EMPIAR<br>
+      <strong>🧪 Omics</strong> (proteomics, metabolomics, lipidomics) — Protein Data Bank, EMDB, PRIDE, PeptideAtlas, Metabolomics Workbench<br>
+      <strong>🩸 Flow cytometry</strong> — FlowRepository<br>
+      <strong>👤 Human research</strong> (clinical, survey, EHR, qualitative) — QDR, ICPSR, DataBrary<br>
+      <strong>🧬 Genomic data</strong> (human, non-human, RNA-seq, whole genome, variants) — handled in the previous step (dbGaP, GEO, SRA, GenBank, AnVIL)<br>
+      <strong>💻 Software &amp; code</strong> — host your code on GitHub, then link the repository to <a href="https://zenodo.org/" target="_blank" rel="noopener noreferrer">Zenodo</a>: each tagged GitHub release is automatically archived and assigned its own citable DOI, so the exact version behind your results can be cited and preserved`,
     yes: { result: "datatype_result" },
     no: "s5_ic"
   },
 
   // ── STEP 5: IC-specific central repository ────────────────────────────────
   s5_ic: {
-    stepNum: 5,
+    stepNum: 6,
+    icon: "🏛️",
     label: "IC-specific repository",
     q: "Is there an NIH Institute/Center (IC)-specific central repository that can be used for your data?",
-    hint: `Use the ICO filter on the <a href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank">NIH repository list</a> to find IC-specific options. Examples: NIAID ImmPort, NIDDK Central Repository, NICHD DASH, NCI CRDC, NIMH Data Archive.`,
+    hint: `Use the ICO filter on the <a href="https://sharing.nih.gov/data-management-and-sharing-policy/sharing-scientific-data/repositories-for-sharing-scientific-data" target="_blank" rel="noopener noreferrer">NIH repository list</a> to find IC-specific options. Examples: NIAID ImmPort, NIDDK Central Repository, NICHD DASH, NCI CRDC, NIMH Data Archive.`,
     yes: { result: "ic_result" },
     no: "s6_inst"
   },
 
   // ── STEP 6: Institutional repository ─────────────────────────────────────
   s6_inst: {
-    stepNum: 6,
+    stepNum: 7,
+    icon: "🏢",
     label: "Institutional repository",
     q: "Does your institution have a designated data repository, institutional repository, or a membership with a generalist repository?",
     hint: `Many universities have institutional data repositories (often built on Dataverse, DSpace, or similar platforms). Some institutions have institutional memberships with generalist repositories (e.g., Figshare for Institutions, Zenodo community). Check with your library or research data services office.`,
@@ -647,7 +693,8 @@ const TREE = {
 
   // ── STEP 7: Human subjects / sensitive data ───────────────────────────────
   s7_human: {
-    stepNum: 7,
+    stepNum: 8,
+    icon: "🔒",
     label: "Human subjects data",
     q: "Does your data involve human subjects, clinical trial data, PHI (protected health information), or PII (personally identifiable information)?",
     hint: `All GREI generalist repositories require de-identification before deposit. Best practice is to employ managed access even after anonymization when re-identification risk remains. If data cannot be appropriately de-identified, a controlled-access repository is required.`,
@@ -656,7 +703,8 @@ const TREE = {
   },
 
   s7b_managed: {
-    stepNum: "7a",
+    stepNum: "8a",
+    icon: "🔒",
     label: "Managed access",
     q: "Does your data require managed / controlled access?",
     hint: `Controlled access means data will not be fully public — only approved researchers can access it under a data use agreement (DUA). If the data can be de-identified and shared openly, you can proceed to an open generalist repository after anonymization.`,
@@ -665,7 +713,8 @@ const TREE = {
   },
 
   s7c_type: {
-    stepNum: "7b",
+    stepNum: "8b",
+    icon: "🔒",
     label: "Clinical or biomedical data",
     q: "Is this data from a clinical trial or a biomedical human subjects study?",
     hint: `Vivli is purpose-built for clinical research data and includes an Independent Review Panel (IRP) to manage access requests. For other human subjects data requiring controlled access (e.g., survey data, qualitative interviews), Dataverse and Zenodo both support depositor-managed restricted access.`,
@@ -674,7 +723,8 @@ const TREE = {
   },
 
   s7d_anon: {
-    stepNum: "7c",
+    stepNum: "8c",
+    icon: "🔒",
     label: "De-identification",
     q: "Can the data be appropriately de-identified / anonymized before deposit?",
     hint: `If re-identification risk is low after de-identification, open deposit in a generalist repository is appropriate. If the data cannot be effectively de-identified, consult your IRB and data governance office about appropriate controlled-access options.`,
@@ -684,7 +734,8 @@ const TREE = {
 
   // ── STEP 8: Storage size ──────────────────────────────────────────────────
   s8_size: {
-    stepNum: 8,
+    stepNum: 9,
+    icon: "📊",
     label: "Dataset size",
     q: "What is the approximate total size of your complete data package?",
     hint: `Storage limits vary: Mendeley Data (10 GB/dataset), OSF (50 GB/public project), Figshare (20 GB free), Zenodo (50 GB/record — contact for higher), Dataverse (flexible, varies by installation), Dryad (flexible with curation), Vivli (large datasets supported).`,
@@ -698,7 +749,8 @@ const TREE = {
 
   // ── STEP 9: Software / code ───────────────────────────────────────────────
   s9_software: {
-    stepNum: 9,
+    stepNum: 10,
+    icon: "💻",
     label: "Software or code",
     q: "Is your primary output software, code, or a GitHub repository?",
     hint: `Zenodo has built-in GitHub integration and automatically archives each release as a citable, versioned deposit with a DOI. Figshare and OSF also support software deposits. All three mint persistent identifiers for each version.`,
@@ -708,7 +760,8 @@ const TREE = {
 
   // ── STEP 10: Curation ─────────────────────────────────────────────────────
   s10_curation: {
-    stepNum: 10,
+    stepNum: 11,
+    icon: "📋",
     label: "Data curation",
     q: "Do you need professional data curation — staff review of your data, metadata, and file organization?",
     hint: `Dryad provides free, thorough curation for all submissions (note: adds processing time and requires CC0 licensing). Figshare, Mendeley Data, and Zenodo offer paid curation services. All other repositories are primarily self-service.`,
@@ -718,17 +771,19 @@ const TREE = {
 
   // ── STEP 11: License ──────────────────────────────────────────────────────
   s11_license: {
-    stepNum: 11,
+    stepNum: 12,
+    icon: "📄",
     label: "Licensing requirements",
     q: "Do you require a specific license other than CC0 (public domain dedication)?",
-    hint: `Dryad requires CC0 for all deposits. Dataverse, Zenodo, Figshare, Mendeley Data, and OSF support a wide range of licenses: CC BY 4.0, CC BY-NC, MIT, Apache 2.0, GPL, and many others. Use the <a href="https://chooser-beta.creativecommons.org/" target="_blank">Creative Commons license chooser</a> if you need guidance.`,
+    hint: `Dryad requires CC0 for all deposits. Dataverse, Zenodo, Figshare, Mendeley Data, and OSF support a wide range of licenses: CC BY 4.0, CC BY-NC, MIT, Apache 2.0, GPL, and many others. Use the <a href="https://chooser-beta.creativecommons.org/" target="_blank" rel="noopener noreferrer">Creative Commons license chooser</a> if you need guidance.`,
     yes: { result: "flexible_license_result" },
     no: "s12_collab"
   },
 
   // ── STEP 12: Project management ───────────────────────────────────────────
   s12_collab: {
-    stepNum: 12,
+    stepNum: 13,
+    icon: "🗂️",
     label: "Project management",
     q: "Do you need a full project management platform in addition to a data repository?",
     hint: `OSF (Open Science Framework) supports wikis, pre-registration, contributor management, versioning, and integrations with GitHub, Google Drive, Dropbox, and more. It functions as a complete research workflow platform, not only a data archive.`,
@@ -752,12 +807,12 @@ const RESULTS = {
     title: "Use an organism-specific repository",
     special: { type: "domain", heading: "Organism-specific repositories", body: "These repositories use community-standard metadata schemas, are well-indexed within disciplinary networks, and are frequently preferred or required by relevant NIH ICs for non-human organism data." },
     examples: [
-      '<a href="https://www.re3data.org/repository/r3d100010266" target="_blank" style="color:inherit;text-decoration:none;">🐭 MGI (mouse)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010421" target="_blank" style="color:inherit;text-decoration:none;">🐟 ZFIN (zebrafish)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010591" target="_blank" style="color:inherit;text-decoration:none;">🪰 FlyBase (Drosophila)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010424" target="_blank" style="color:inherit;text-decoration:none;">🪱 WormBase (C. elegans)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010417" target="_blank" style="color:inherit;text-decoration:none;">🐀 RGD (rat)</a>',
-      '<a href="https://www.alliancegenome.org/" target="_blank" style="color:inherit;text-decoration:none;">🧬 Alliance of Genome Resources</a>'
+      '<a href="https://www.re3data.org/repository/r3d100010266" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🐭 MGI (mouse)</a>',
+      '<a href="https://www.re3data.org/repository/r3d100010421" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🐟 ZFIN (zebrafish)</a>',
+      '<a href="https://www.re3data.org/repository/r3d100010591" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🪰 FlyBase (Drosophila)</a>',
+      '<a href="https://www.re3data.org/repository/r3d100010424" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🪱 WormBase (C. elegans)</a>',
+      '<a href="https://www.re3data.org/repository/r3d100010417" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🐀 RGD (rat)</a>',
+      '<a href="https://www.alliancegenome.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 Alliance of Genome Resources</a>'
     ],
     note: "If your dataset spans multiple types — some organism-specific and some generic — consider splitting the deposit. Consult your institutional data librarian for guidance.",
     primary: [], also: [REPOS.dataverse, REPOS.dryad, REPOS.figshare, REPOS.mendeley, REPOS.osf, REPOS.zenodo]
@@ -767,35 +822,91 @@ const RESULTS = {
     title: "Use a disease- or organ-specific repository",
     special: { type: "domain", heading: "Disease/organ-specific repositories", body: "These repositories offer domain-appropriate metadata standards, targeted community visibility, and are frequently preferred by relevant NIH ICs." },
     examples: [
-      '<a href="https://www.re3data.org/repository/r3d100011559" target="_blank" style="color:inherit;text-decoration:none;">🔬 TCIA (cancer imaging)</a>',
-      '<a href="https://adknowledgeportal.synapse.org/" target="_blank" style="color:inherit;text-decoration:none;">🧠 AD Knowledge Portal (Alzheimer&#39;s)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100013378" target="_blank" style="color:inherit;text-decoration:none;">🖼️ ADNI Image and Data Archive</a>',
-      '<a href="https://www.re3data.org/repository/r3d100012837" target="_blank" style="color:inherit;text-decoration:none;">💡 FITBIR (traumatic brain injury)</a>'
+      '<a href="https://www.re3data.org/repository/r3d100011559" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🔬 TCIA (cancer imaging)</a>',
+      '<a href="https://adknowledgeportal.synapse.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧠 AD Knowledge Portal (Alzheimer&#39;s)</a>',
+      '<a href="https://www.re3data.org/repository/r3d100013378" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🖼️ ADNI Image and Data Archive</a>',
+      '<a href="https://www.re3data.org/repository/r3d100012837" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">💡 FITBIR (traumatic brain injury)</a>'
     ],
     note: "Search re3data.org or use the NIH IC filter on the BMIC repository list to confirm whether a disease-specific repository exists for your data type.",
     primary: [], also: [REPOS.dataverse, REPOS.dryad, REPOS.figshare, REPOS.mendeley, REPOS.osf, REPOS.zenodo]
   },
 
+  human_genomic_result: {
+    title: "Use an NIH-designated human genomic data repository",
+    special: { type: "domain", heading: "Human genomic data — NIH GDS Policy applies", body: "Human genomic data from NIH-funded research is governed by the NIH Genomic Data Sharing (GDS) Policy. The policy applies to projects that generate large-scale genomic data, plus some smaller-scale data an IC designates for sharing (<a href=\'https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview#applicability\' target=\'_blank\' rel=\'noopener noreferrer\'>When does the GDS Policy apply?</a>). <br><br>Follow the GDS process for <a href=\'https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview#planning,-submitting,-and-accessing-genomic-data\' target=\'_blank\' rel=\'noopener noreferrer\'>planning, submitting, and accessing</a> genomic data: develop a Genomic Data Sharing Plan within your DMS Plan; for human data, prepare an Institutional Certification and register the study in dbGaP; then submit to an appropriate repository. Human genomic data is typically shared under controlled access. Check for IC-specific requirements before submitting." },
+    examples: [
+      '<a href="https://anvilproject.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">☁️ AnVIL</a>',
+      '<a href="https://www.ebi.ac.uk/arrayexpress/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 ArrayExpress</a>',
+      '<a href="https://biodatacatalyst.nhlbi.nih.gov/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">☁️ BioData Catalyst</a>',
+      '<a href="https://www.ncbi.nlm.nih.gov/gap/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🔒 dbGaP (controlled access)</a>',
+      '<a href="https://www.ncbi.nlm.nih.gov/snp/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 dbSNP</a>',
+      '<a href="https://www.ncbi.nlm.nih.gov/dbvar" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 dbVar</a>',
+      '<a href="https://www.ddbj.nig.ac.jp/index-e.html" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 DDBJ</a>',
+      '<a href="https://www.ebi.ac.uk/ena/browser/home" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 ENA (European Nucleotide Archive)</a>',
+      '<a href="https://www.ncbi.nlm.nih.gov/genbank/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 GenBank</a>',
+      '<a href="https://www.ncbi.nlm.nih.gov/geo/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 GEO (Gene Expression Omnibus)</a>',
+      '<a href="https://gdc.cancer.gov/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🎗️ NCI Genomic Data Commons</a>',
+      '<a href="https://firecloud.terra.bio/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">☁️ NCI FireCloud</a>',
+      '<a href="https://isb-cgc.appspot.com/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">☁️ NCI ISB Cancer Genomics Cloud</a>',
+      '<a href="https://www.cancergenomicscloud.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">☁️ NCI Seven Bridges Cancer Genomics Cloud</a>',
+      '<a href="https://nda.nih.gov/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧠 NIMH Data Archive (NDA)</a>',
+      '<a href="https://www.niagads.org/home" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">👴 NIAGADS</a>',
+      '<a href="https://www.ncbi.nlm.nih.gov/sra" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 SRA (Sequence Read Archive)</a>'
+    ],
+    note: "Consult the <a href=\'https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview\' target=\'_blank\' rel=\'noopener noreferrer\'>NIH GDS Policy</a> and <a href=\'https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/where-to-submit#examples-of-frequently-used-repositories-for-human-genomic-data\' target=\'_blank\' rel=\'noopener noreferrer\'>Where to Submit Genomic Data</a> for the full list of designated repositories, and review <a href=\'https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/expectations-by-ics\' target=\'_blank\' rel=\'noopener noreferrer\'>IC-specific expectations</a> for your funding source.",
+    primary: [], also: []
+  },
+  nonhuman_genomic_result: {
+    title: "Use a non-human genomic data repository",
+    special: { type: "domain", heading: "Non-human genomic data", body: "Non-human genomic data may be submitted to any widely used repository. The NIH GDS Policy may still apply to NIH-funded non-human genomic data — check the applicability of the policy (<a href=\'https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview#applicability\' target=\'_blank\' rel=\'noopener noreferrer\'>When does the NIH GDS Policy apply?</a>). The repositories below are commonly used examples." },
+    examples: [
+      '<a href="https://www.ebi.ac.uk/arrayexpress/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 ArrayExpress</a>',
+      '<a href="https://www.ddbj.nig.ac.jp/index-e.html" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 DDBJ</a>',
+      '<a href="https://www.ebi.ac.uk/ena/browser/home" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 ENA (European Nucleotide Archive)</a>',
+      '<a href="http://flybase.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🪰 FlyBase (Drosophila)</a>',
+      '<a href="https://www.ncbi.nlm.nih.gov/genbank/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 GenBank</a>',
+      '<a href="https://www.ncbi.nlm.nih.gov/geo/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 GEO (Gene Expression Omnibus)</a>',
+      '<a href="https://www.fludb.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🦠 IRD (Influenza Research Database)</a>',
+      '<a href="http://www.informatics.jax.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🐭 MGI (mouse)</a>',
+      '<a href="https://rgd.mcw.edu/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🐀 RGD (rat)</a>',
+      '<a href="https://www.ncbi.nlm.nih.gov/sra" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧬 SRA (Sequence Read Archive)</a>',
+      '<a href="https://wormbase.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🪱 WormBase (C. elegans)</a>',
+      '<a href="http://www.xenbase.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🐸 Xenbase (Xenopus)</a>',
+      '<a href="https://zfin.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🐟 ZFIN (zebrafish)</a>'
+    ],
+    note: "See <a href=\'https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/where-to-submit#submitting-non-human-genomic-data\' target=\'_blank\' rel=\'noopener noreferrer\'>Where to Submit Genomic Data</a> for commonly used non-human genomic repositories. If a model organism-specific database applies to your data, it is often the preferred choice. The National Library of Medicine provides a <a href=\'https://submit.ncbi.nlm.nih.gov/\' target=\'_blank\' rel=\'noopener noreferrer\'>Submission Portal</a> to help find the appropriate NIH repository for sequence data.",
+    primary: [], also: []
+  },
+
   datatype_result: {
     title: "Use a data type-specific or method-specific repository",
-    special: { type: "domain", heading: "Data type-specific repositories", body: "Discipline-specific repositories use community-standard metadata, increase discoverability within your field, and are preferred by many NIH ICs." },
-    examples: [
-      '<a href="https://www.re3data.org/repository/r3d100010924" target="_blank" style="color:inherit;text-decoration:none;">🖼️ OpenNeuro (imaging)</a>',
-      '<a href="https://ida.loni.usc.edu/login.jsp" target="_blank" style="color:inherit;text-decoration:none;">🖼️ Image & Data Archive (IDA)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100012435" target="_blank" style="color:inherit;text-decoration:none;">🖼️ IDR (Image Data Resource)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100013949" target="_blank" style="color:inherit;text-decoration:none;">🖼️ BioImage Archive</a>',
-      '<a href="https://www.re3data.org/repository/r3d100012356" target="_blank" style="color:inherit;text-decoration:none;">🔬 EMPIAR (electron microscopy)</a>',
-      '<a href="https://www.rcsb.org/" target="_blank" style="color:inherit;text-decoration:none;">⚗️ Protein Data Bank</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010562" target="_blank" style="color:inherit;text-decoration:none;">⚗️ EMDB (EM Data Bank)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100011280" target="_blank" style="color:inherit;text-decoration:none;">⚗️ FlowRepository</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010788" target="_blank" style="color:inherit;text-decoration:none;">🧬 dbGaP (genomics)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010283" target="_blank" style="color:inherit;text-decoration:none;">🧬 GEO (genomics)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010889" target="_blank" style="color:inherit;text-decoration:none;">🔬 PeptideAtlas (proteomics)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010137" target="_blank" style="color:inherit;text-decoration:none;">🔬 PRIDE (proteomics)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100012314" target="_blank" style="color:inherit;text-decoration:none;">📊 Metabolomics Workbench</a>',
-      '<a href="https://www.re3data.org/repository/r3d100011038" target="_blank" style="color:inherit;text-decoration:none;">📝 QDR (qualitative)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010255" target="_blank" style="color:inherit;text-decoration:none;">📝 ICPSR (qualitative)</a>',
-      '<a href="https://www.re3data.org/repository/r3d100011023" target="_blank" style="color:inherit;text-decoration:none;">📝 DataBrary (qualitative)</a>'
+    special: { type: "domain", heading: "Data type-specific repositories", body: "Discipline-specific repositories use community-standard metadata, increase discoverability within your field, and are preferred by many NIH ICs. The examples below are only a starting point — it is not possible to list every data type-specific repository here. To find one suited to your data, search by keyword in <a href=\'https://www.re3data.org/\' target=\'_blank\' rel=\'noopener noreferrer\'>re3data.org</a> or <a href=\'https://fairsharing.org/databases\' target=\'_blank\' rel=\'noopener noreferrer\'>FAIRsharing.org</a>." },
+    categories: [
+      { label: "🔬 Imaging (microscopy, MRI, CT, PET)", chips: [
+        '<a href="https://www.re3data.org/repository/r3d100010924" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🖼️ OpenNeuro</a>',
+        '<a href="https://ida.loni.usc.edu/login.jsp" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🖼️ Image & Data Archive (IDA)</a>',
+        '<a href="https://www.re3data.org/repository/r3d100012435" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🖼️ IDR (Image Data Resource)</a>',
+        '<a href="https://www.re3data.org/repository/r3d100013949" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🖼️ BioImage Archive</a>',
+        '<a href="https://www.re3data.org/repository/r3d100012356" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🔬 EMPIAR (electron microscopy)</a>'
+      ] },
+      { label: "🧪 Omics (proteomics, metabolomics, lipidomics)", chips: [
+        '<a href="https://www.rcsb.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">⚗️ Protein Data Bank</a>',
+        '<a href="https://www.re3data.org/repository/r3d100010137" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🔬 PRIDE (proteomics)</a>',
+        '<a href="https://www.re3data.org/repository/r3d100010889" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🔬 PeptideAtlas (proteomics)</a>',
+        '<a href="https://www.re3data.org/repository/r3d100012314" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">📊 Metabolomics Workbench</a>'
+      ] },
+      { label: "🩸 Flow cytometry", chips: [
+        '<a href="https://www.re3data.org/repository/r3d100011280" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">⚗️ FlowRepository</a>'
+      ] },
+      { label: "👤 Human research (clinical, survey, EHR, qualitative)", chips: [
+        '<a href="https://www.re3data.org/repository/r3d100011038" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">📝 QDR (qualitative)</a>',
+        '<a href="https://www.re3data.org/repository/r3d100010255" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">📝 ICPSR (survey/behavioral)</a>',
+        '<a href="https://www.re3data.org/repository/r3d100011023" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">📝 DataBrary (video/qualitative)</a>'
+      ] },
+      { label: "💻 Software & code", chips: [
+        '<a href="https://github.com/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">💻 GitHub</a>',
+        '<a href="https://github.com/OpenScienceMOOC/Module-5-Open-Research-Software-and-Open-Source/blob/master/content_development/Task_2.md" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🏛️ Zenodo (GitHub archive → citable DOI)</a>'
+      ] }
     ],
     note: "If only part of your data has a suitable domain repository, use this tool for the remainder of your dataset.",
     primary: [], also: [REPOS.dataverse, REPOS.dryad, REPOS.figshare, REPOS.mendeley, REPOS.osf, REPOS.zenodo]
@@ -805,13 +916,13 @@ const RESULTS = {
     title: "Use an NIH IC-specific central repository",
     special: { type: "domain", heading: "IC-specific repositories", body: "NIH Institute and Center-specific repositories are often mandated or strongly preferred for data generated from IC-funded research. Using these repositories improves data findability within the relevant research community." },
     examples: [
-      '<a href="https://www.re3data.org/repository/r3d100012529" target="_blank" style="color:inherit;text-decoration:none;">🦠 NIAID ImmPort</a>',
-      '<a href="https://www.re3data.org/repository/r3d100010377" target="_blank" style="color:inherit;text-decoration:none;">🩺 NIDDK Central Repository</a>',
-      '<a href="https://www.re3data.org/repository/r3d100012915" target="_blank" style="color:inherit;text-decoration:none;">👶 NICHD DASH</a>',
-      '<a href="https://www.re3data.org/repository/r3d100012653" target="_blank" style="color:inherit;text-decoration:none;">🧠 NIMH Data Archive</a>',
-      '<a href="https://www.naccdata.org/" target="_blank" style="color:inherit;text-decoration:none;">👴 NIA NACC</a>'
+      '<a href="https://www.re3data.org/repository/r3d100012529" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🦠 NIAID ImmPort</a>',
+      '<a href="https://www.re3data.org/repository/r3d100010377" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🩺 NIDDK Central Repository</a>',
+      '<a href="https://www.re3data.org/repository/r3d100012915" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">👶 NICHD DASH</a>',
+      '<a href="https://www.re3data.org/repository/r3d100012653" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">🧠 NIMH Data Archive</a>',
+      '<a href="https://www.naccdata.org/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">👴 NIA NACC</a>'
     ],
-    note: "Filter the NIH Scientific Data Repositories list by ICO to identify any IC-specific requirements for your funding source.",
+    note: "Filter the <a href=\'https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific#nih-supported-scientific-data-repositories*\' target=\'_blank\' rel=\'noopener noreferrer\'>NIH Scientific Data Repositories list</a> by ICO to identify any IC-specific requirements for your funding source.",
     primary: [], also: [REPOS.dataverse, REPOS.dryad, REPOS.figshare, REPOS.mendeley, REPOS.osf, REPOS.zenodo]
   },
 
@@ -889,7 +1000,7 @@ const RESULTS = {
 
 let history = [];
 let current = "s1_funder";
-const TOTAL_STEPS = 12;
+const TOTAL_STEPS = 13;
 
 // ─── Render ────────────────────────────────────────────────────────────────
 
@@ -899,6 +1010,8 @@ function getProgress() {
 
 function render() {
   document.getElementById("prog").style.width = getProgress() + "%";
+  const track = document.getElementById("prog-track");
+  if (track) track.setAttribute("aria-valuenow", getProgress());
 
   // current is either a string (node id) or an object { result: "key" }
   if (typeof current === "object" && current.result) {
@@ -912,6 +1025,18 @@ function render() {
     renderBreadcrumb();
     renderQuestion(current, node);
   }
+  focusMainHeading();
+}
+
+let firstRender = true;
+function focusMainHeading() {
+  // Skip on initial page load so users can read the intro first
+  if (firstRender) { firstRender = false; return; }
+  // Move keyboard/screen-reader focus to the new question or result heading
+  const app = document.getElementById("app");
+  if (!app) return;
+  const h = app.querySelector("h2");
+  if (h) { try { h.focus({ preventScroll: true }); } catch (e) { h.focus(); } }
 }
 
 function renderBreadcrumb() {
@@ -933,7 +1058,7 @@ function renderQuestion(nodeId, node) {
   if (node.multiOpt && node.opts) {
     optsHTML = node.opts.map(o =>
       `<button class="opt opt-na" onclick="answerMulti('${nodeId}','${o.val}','${o.label.replace(/'/g,"\\'")}')">
-        <span class="opt-badge">→</span>
+        <span class="opt-badge" aria-hidden="true">→</span>
         <span class="opt-text">
           <span class="opt-label">${o.label}</span>
           <span class="opt-sub">${o.sub}</span>
@@ -942,7 +1067,7 @@ function renderQuestion(nodeId, node) {
   } else if (node.opts) {
     optsHTML = node.opts.map(o =>
       `<button class="opt opt-na" onclick="answerOpt('${nodeId}','${o.val}','${o.label.replace(/'/g,"\\'")}')">
-        <span class="opt-badge">→</span>
+        <span class="opt-badge" aria-hidden="true">→</span>
         <span class="opt-text">
           <span class="opt-label">${o.label}</span>
           <span class="opt-sub">${o.sub}</span>
@@ -951,11 +1076,11 @@ function renderQuestion(nodeId, node) {
   } else {
     optsHTML = `
       <button class="opt opt-yes" onclick="answer('${nodeId}','yes')">
-        <span class="opt-badge">✓</span>
+        <span class="opt-badge" aria-hidden="true">✓</span>
         <span class="opt-text"><span class="opt-label">Yes</span></span>
       </button>
       <button class="opt opt-no" onclick="answer('${nodeId}','no')">
-        <span class="opt-badge">✗</span>
+        <span class="opt-badge" aria-hidden="true">✗</span>
         <span class="opt-text"><span class="opt-label">No</span></span>
       </button>`;
   }
@@ -966,13 +1091,13 @@ function renderQuestion(nodeId, node) {
     <div class="step-card">
       <div class="step-eyebrow">
         <span class="step-num">${node.stepNum}</span>
-        ${node.label || ""}
+        ${node.icon ? `<span class="step-icon" aria-hidden="true">${node.icon}</span> ` : ""}${node.label || ""}
       </div>
-      <h2 class="step-q">${node.q}</h2>
+      <h2 class="step-q" tabindex="-1">${node.q}</h2>
       ${node.hint ? `<div class="step-hint">${node.hint}</div>` : ""}
       <div class="options">${optsHTML}</div>
     </div>
-    <div class="feedback-bar">Have feedback about this tool? <a href="mailto:seonyoung.kim@wustl.edu?subject=${fbSubjectQ}" target="_blank">&#128172; Share your feedback</a></div>`;
+    <div class="feedback-bar">Have feedback about this tool? <a href="mailto:seonyoung.kim@wustl.edu?subject=${fbSubjectQ}" target="_blank" rel="noopener noreferrer">&#128172; Share your feedback</a></div>`;
 }
 
 function renderResult(key) {
@@ -989,6 +1114,11 @@ function renderResult(key) {
   if (r.examples && r.examples.length) {
     specialHTML += '<div class="domain-examples">' + r.examples.map(function(e){ return '<span class="domain-chip">' + e + '</span>'; }).join("") + '</div>';
   }
+  if (r.categories && r.categories.length) {
+    specialHTML += r.categories.map(function(cat){
+      return '<div class="cat-group"><div class="cat-label">' + cat.label + '</div><div class="domain-examples">' + cat.chips.map(function(e){ return '<span class="domain-chip">' + e + '</span>'; }).join("") + '</div></div>';
+    }).join("");
+  }
 
   const primaryHTML = r.primary && r.primary.length ? r.primary.map(repo => `
     <div class="repo-item primary">
@@ -996,7 +1126,7 @@ function renderResult(key) {
       <div>
         <div class="repo-name">${repo.name}</div>
         <div class="repo-desc">${repo.desc}</div>
-        ${repo.url ? `<a class="repo-url" href="${repo.url}" target="_blank">${repo.url} ↗</a>` : ""}
+        ${repo.url ? `<a class="repo-url" href="${repo.url}" target="_blank" rel="noopener noreferrer">${repo.url} ↗</a>` : ""}
       </div>
     </div>`).join("") : "";
 
@@ -1008,7 +1138,7 @@ function renderResult(key) {
           <div>
             <div class="repo-name">${repo.name}</div>
             <div class="repo-desc">${repo.desc}</div>
-            ${repo.url ? `<a class="repo-url" href="${repo.url}" target="_blank">${repo.url} ↗</a>` : ""}
+            ${repo.url ? `<a class="repo-url" href="${repo.url}" target="_blank" rel="noopener noreferrer">${repo.url} ↗</a>` : ""}
           </div>
         </div>`).join("")}
     </div>` : "";
@@ -1017,8 +1147,8 @@ function renderResult(key) {
     <button class="back-btn" onclick="goBack()">← Back</button>
     <div class="result-card">
       <div class="result-header">
-        <div class="result-eyebrow">Recommendation</div>
-        <h2 class="result-title">${r.title}</h2>
+        <div class="result-eyebrow">✅ Recommendation</div>
+        <h2 class="result-title" tabindex="-1">${r.title}</h2>
       </div>
       <div class="result-body">
         ${specialHTML}
@@ -1031,14 +1161,16 @@ function renderResult(key) {
         <button class="btn btn-primary" onclick="window.open('https://osf.io/d8kzu/overview','_blank')">View project on OSF ↗</button>
       </div>
       <div class="citation">
-        Decision logic based on: Barbosa et al. (2024). <a href="https://doi.org/10.5281/zenodo.11105430" target="_blank">GREI Repository Selection Flowchart</a>. Zenodo. CC BY 4.0 &nbsp;·&nbsp;
-        <a href="https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy" target="_blank">Becker Medical Library 5-step NIH DMSP repository selection framework</a> &nbsp;·&nbsp;
+        Decision logic based on: Barbosa et al. (2024). <a href="https://doi.org/10.5281/zenodo.11105429" target="_blank" rel="noopener noreferrer">GREI Repository Selection Flowchart</a>. Zenodo. CC BY 4.0 &nbsp;·&nbsp;
+        <a href="https://wustl.app.box.com/file/1676763033526?s=tr2zehvskpx6s3i27pm9ueb55qaoktvy" target="_blank" rel="noopener noreferrer">Becker Medical Library 5-step NIH DMSP repository selection framework</a> &nbsp;·&nbsp;
+        <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/accessing-data/scientific" target="_blank" rel="noopener noreferrer">NIH repository selection guidance</a> &nbsp;·&nbsp;
+        <a href="https://grants.nih.gov/policy-and-compliance/policy-topics/sharing-policies/gds/overview" target="_blank" rel="noopener noreferrer">NIH Genomic Data Sharing (GDS) Policy</a> &nbsp;·&nbsp;
         NIH DMSP Guidance Working Group &nbsp;·&nbsp;
         Bernard Becker Medical Library, Washington University School of Medicine in St. Louis
       </div>
       <div style="height:14px"></div>
     </div>
-    <div class="feedback-bar">Have feedback about this tool? <a href="mailto:seonyoung.kim@wustl.edu?subject=${fbSubjectR}" target="_blank">&#128172; Share your feedback</a></div>`;
+    <div class="feedback-bar">Have feedback about this tool? <a href="mailto:seonyoung.kim@wustl.edu?subject=${fbSubjectR}" target="_blank" rel="noopener noreferrer">&#128172; Share your feedback</a></div>`;
 }
 
 // ─── Navigation ────────────────────────────────────────────────────────────

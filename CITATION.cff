@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this tool, please cite it as below."
 type: software
 title: "Repository Selection Decision Tree"
-abstract: "An interactive, self-contained HTML decision tree to help researchers select the most appropriate repository for sharing their research data, following the NIH DMSP guidance framework and the GREI Repository Selection Flowchart."
+abstract: "An interactive, self-contained HTML decision tree to help researchers select the most appropriate repository for sharing their research data, following the NIH DMSP guidance framework, the NIH Genomic Data Sharing (GDS) Policy, and the GREI Repository Selection Flowchart."
 authors:
   - family-names: "Kim"
     given-names: "Seonyoung"
@@ -12,14 +12,15 @@ repository-code: "https://github.com/seykim10/repository-decision-tree/"
 url: "https://seykim10.github.io/repository-decision-tree"
 doi: "10.5281/zenodo.20317424"
 license: CC-BY-4.0
-version: "0.3.0"
-date-released: "2026-05-20"
+version: "1.1.0"
+date-released: "2026-07-06"
 keywords:
   - "data management"
   - "data sharing"
   - "repository selection"
   - "NIH DMSP"
   - "GREI"
+  - "genomic data sharing"
   - "FAIR data"
   - "open science"
   - "research data management"
@@ -50,6 +51,6 @@ references:
         given-names: "Mark"
     title: "GREI Repository Selection Flowchart"
     year: 2024
-    doi: "10.5281/zenodo.11105430"
+    doi: "10.5281/zenodo.11105429"
     publisher:
       name: "Zenodo"
